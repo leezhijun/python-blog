@@ -1,6 +1,6 @@
 import asyncio
 import aiomysql
-
+loop = asyncio.get_event_loop() #返回当前 OS 线程中正在运行的事件循环
 async def test_example():
     conn = await aiomysql.connect(
         host='127.0.0.1', 
@@ -18,5 +18,4 @@ async def test_example():
     await cur.close()
     conn.close()
 
-loop = asyncio.get_event_loop() #返回当前 OS 线程中正在运行的事件循环
 loop.run_until_complete(test_example())
