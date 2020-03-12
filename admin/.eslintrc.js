@@ -18,5 +18,7 @@ module.exports = {
     "no-unused-vars":"off",
     "no-irregular-whitespace":"off",
     'semi': 'off',
+    'space-before-fun': 'off',
+    'comma-dangle': 'off'
   }
 }

@@ -2,13 +2,16 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 
+/* Layout */
+import Layout from '@/layout'
+
 Vue.use(VueRouter)
 
-const routes = [
+const constantRoutes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Layout
   },
   {
     path: '/about',
@@ -20,10 +23,27 @@ const routes = [
   }
 ]
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+// const router = new VueRouter({
+//   mode: 'history',
+//   base: process.env.BASE_URL,
+//   scrollBehavior: () => ({ y: 0 }),
+//   routes
+// })
+
+// export default router
+
+const createRouter = () => new VueRouter({
+  // mode: 'history', // require service support
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRoutes
 })
+
+const router = createRouter()
+
+// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465 -- 重置路由
+export function resetRouter () {
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher // reset router
+}
 
 export default router

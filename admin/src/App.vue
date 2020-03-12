@@ -1,29 +1,11 @@
 <template>
   <div id="app">
-    <el-container direction='vertical'>
-      <Header />
-      <el-container>
-        <Aside />
-        <Main />
-      </el-container>
-      <Footer />
-    </el-container>
+    <router-view />
   </div>
 </template>
 <script>
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import Aside from '@/components/Aside';
-import Main from '@/components/Main';
-
 export default {
   name: 'App',
-  components: {
-    Header,
-    Footer,
-    Aside,
-    Main
-  }
 };
 </script>
 <style lang="scss">
