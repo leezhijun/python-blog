@@ -3,18 +3,18 @@
     <el-container direction='vertical'>
       <Header />
       <el-container>
-        <Aside/>
-        <Main/>
+        <Aside />
+        <Main />
       </el-container>
-      <Footer/>
+      <Footer />
     </el-container>
   </div>
 </template>
 <script>
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import Aside from '@/components/Aside'
-import Main from '@/components/Main'
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import Aside from '@/components/Aside';
+import Main from '@/components/Main';
 
 export default {
   name: 'App',
@@ -24,7 +24,7 @@ export default {
     Aside,
     Main
   }
-}
+};
 </script>
 <style lang="scss">
 #app {
@@ -34,5 +34,4 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-
 </style>

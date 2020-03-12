@@ -17,5 +17,6 @@ module.exports = {
     "no-tabs":"off",
     "no-unused-vars":"off",
     "no-irregular-whitespace":"off",
+    'semi': 'off',
   }
 }
