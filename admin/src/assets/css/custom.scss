@@ -2,11 +2,20 @@
 @charset "UTF-8";
 @import './commom.scss';
 
+html{
+    height: 100%;
+}
 body{
+    width: 100%;
+    height: 100%;
     font-size: 14px;
     background-color: $c-bg;
 }
 [v-cloak] {display: none !important;}
+
+.h-100{
+    height: 100%;
+}
 
 .ell{
     overflow: hidden;

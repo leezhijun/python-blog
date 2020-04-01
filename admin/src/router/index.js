@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
 /* Layout */
 import Layout from '@/layout'
@@ -11,16 +10,31 @@ const constantRoutes = [
   {
     path: '/',
     name: 'Home',
-    component: Layout
+    component: Layout,
+    redirect: '/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/index')
+      }
+    ]
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    path: '/user',
+    name: 'Home',
+    component: Layout,
+    redirect: '/user/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/user')
+      },
+      {
+        path: 'add',
+        component: () => import('@/views/user/add')
+      }
+    ]
+  },
 ]
 
 // const router = new VueRouter({
@@ -33,7 +47,7 @@ const constantRoutes = [
 // export default router
 
 const createRouter = () => new VueRouter({
-  // mode: 'history', // require service support
+  mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })

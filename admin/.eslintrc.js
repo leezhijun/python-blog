@@ -19,6 +19,7 @@ module.exports = {
     "no-irregular-whitespace":"off",
     'semi': 'off',
     'space-before-fun': 'off',
-    'comma-dangle': 'off'
+    'comma-dangle': 'off',
+    'space-before-function-paren': 'off'
   }
 }
