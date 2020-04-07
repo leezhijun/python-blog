@@ -27,6 +27,8 @@ body{
     cursor: pointer
 }
 
+[class*=" el-icon-"], [class^=el-icon-]{line-height: initial;}
+
 .c-ff {color: #fff;}
 .c000 {color: #000000;}
 .c999 {color: #999;}

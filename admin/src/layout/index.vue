@@ -1,6 +1,6 @@
 <template>
   <el-container class="h-100">
-    <Aside class="h-100" />
+    <Aside />
     <el-container direction='vertical'>
       <Header />
       <Main />

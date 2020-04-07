@@ -2,10 +2,23 @@
   <el-header class="header">
     <el-row type="flex" class="row-bg" justify="space-between">
       <el-col class="tl" :span="6">
-        <i class="f18" @click="toggleCollapse" :class="{'el-icon-s-unfold':isCollapse,'el-icon-s-fold':!isCollapse}"></i>
+        <i class="f20 cursor" @click="toggleCollapse" :class="{'el-icon-s-unfold':isCollapse,'el-icon-s-fold':!isCollapse}"></i>
+        <i class="f20 ml40 cursor el-icon-s-platform"></i>
+        <i class="f20 ml40 cursor el-icon-refresh-right"></i>
         <span class="ml20">{{routerName}}</span>
       </el-col>
-      <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
+      <el-col class="tr" :span="6">
+        <el-dropdown>
+          <span class="el-dropdown-link">
+            admin<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>基本信息</el-dropdown-item>
+            <el-dropdown-item>修改密码</el-dropdown-item>
+            <el-dropdown-item>退出登陆</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </el-col>
     </el-row>
   </el-header>
 </template>
@@ -39,7 +52,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .header{
-  background-color: #fff;
+  height: 60px;
   line-height: 60px;
+  background-color: #fff;
 }
 </style>
