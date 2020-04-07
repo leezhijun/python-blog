@@ -5,7 +5,7 @@ import VueRouter from 'vue-router'
 import Layout from '@/layout'
 
 Vue.use(VueRouter)
-
+// 基础路由
 const constantRoutes = [
   {
     path: '/',
@@ -18,6 +18,14 @@ const constantRoutes = [
         component: () => import('@/views/index')
       }
     ]
+  },
+  {
+    path: '/login',
+    name: 'LoginPage',
+    meta: {
+      title: '登录页'
+    },
+    component: () => import('@/views/login'),
   },
   {
     path: '/user',

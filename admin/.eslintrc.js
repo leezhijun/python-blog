@@ -20,6 +20,11 @@ module.exports = {
     'semi': 'off',
     'space-before-fun': 'off',
     'comma-dangle': 'off',
-    'space-before-function-paren': 'off'
+    'space-before-function-paren': 'off',
+    'indent': 'off',
+    'dot-notation': 'off',
+    'comma-spacing': 'off',
+    'arrow-spacing': 'off',
+    'space-infix-ops': 'off',
   }
 }

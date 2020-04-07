@@ -11,6 +11,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import mixin from './mixin'
 
+if (process.env.NODE_ENV !== 'production') require('./mockjs/index.js')
+
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
