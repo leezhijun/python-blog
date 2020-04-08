@@ -1,7 +1,7 @@
 <template>
   <el-main>
     <transition name="fade-transform" mode="out-in">
-      <keep-alive :include="cachedViews">
+      <keep-alive>
         <router-view :key="key" />
       </keep-alive>
     </transition>
@@ -18,5 +18,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
+.el-main{
+  height: calc(100% - 80px);
+  margin: 20px 20px 0 20px;
+  padding: 10px;
+  background-color: #fff;
+}
 </style>

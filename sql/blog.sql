@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `blog_site`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `blog_site` (`site_key`, `site_name`) VALUES ('site_name','站点名称');
-INSERT INTO `blog_site` (`site_key`, `site_name`) VALUES ('site_utl','网址');
+INSERT INTO `blog_site` (`site_key`, `site_name`) VALUES ('site_url','网址');
 INSERT INTO `blog_site` (`site_key`, `site_name`) VALUES ('site_title','站点名称');
 INSERT INTO `blog_site` (`site_key`, `site_name`) VALUES ('site_keywords','关键词');
 INSERT INTO `blog_site` (`site_key`, `site_name`) VALUES ('site_descript','描述');
