@@ -34,7 +34,7 @@
               <span>用户管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="/user/index">基础配置</el-menu-item>
+              <el-menu-item index="/user/index">用户列表</el-menu-item>
               <el-menu-item index="/user/admin">管理员</el-menu-item>
               <el-menu-item index="/user/role">用户角色</el-menu-item>
             </el-menu-item-group>
@@ -54,7 +54,7 @@
             </template>
             <el-menu-item-group>
               <el-menu-item index="/article/index">文章列表</el-menu-item>
-              <el-menu-item index="/article/add">新增文章</el-menu-item>
+              <el-menu-item index="/article/add">发布文章</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-menu-item index="/backup">
