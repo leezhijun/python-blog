@@ -65,6 +65,7 @@ CREATE TABLE IF NOT EXISTS `blog_cate`(
 CREATE TABLE IF NOT EXISTS `blog_article`(
    `article_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id',
    `user_id` BIGINT(20) NOT NULL COMMENT '用户id',
+   `cate_id` SMALLINT(4) NOT NULL COMMENT '分类id',
    `article_title` VARCHAR(200) COMMENT '标题',
    `article_keywords` VARCHAR(255) COMMENT '关键词',
    `article_description` VARCHAR(500) COMMENT '描述',
@@ -81,6 +82,7 @@ CREATE TABLE IF NOT EXISTS `blog_article`(
    `article_type` TINYINT(2) UNSIGNED NOT NULL COMMENT '类型1文章2单页',
    PRIMARY KEY ( `article_id` ),
    KEY `userid` (`user_id`),
+   KEY `cateid` (`cate_id`),
    KEY `articletitle` (`article_title`),
    KEY `articleupdatetime` (`article_update_time`),
    KEY `articleorder` (`article_order`)

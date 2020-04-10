@@ -26,5 +26,10 @@ module.exports = {
     'comma-spacing': 'off',
     'arrow-spacing': 'off',
     'space-infix-ops': 'off',
+    'quotes': 'off',
+    'keyword-spacing': 'off',
+    'camelcase': 'off',
+    'curly': 'off',
+    'no-mixed-spaces-and-tabs': 'off'
   }
 }
