@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `blog_user_and_article`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --用户/文章关联表-收藏
-CREATE TABLE IF NOT EXISTS `blog_img-list图`(
+CREATE TABLE IF NOT EXISTS `blog_img-list`(
    `article_id` BIGINT(20) NOT NULL COMMENT '文章id',
    `img_url` VARCHAR(255) NOT NULL COMMENT '图片路径',
    KEY `articleid` (`article_id`)
