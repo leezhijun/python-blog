@@ -53,9 +53,11 @@ async def go():
         # await conn._commit_impl()  # commit https://github.com/aio-libs/aiomysql/issues/473
         try:
             result = await conn.execute(tbl.select())
+            print(tbl.select())
             res = await result.fetchall()
             for row in res:
                 print(row)
+            print(row)
         except Exception as e :
             print(e)
             

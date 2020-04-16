@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `blog_cate`(
 CREATE TABLE IF NOT EXISTS `blog_article`(
    `article_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id',
    `user_id` BIGINT(20) NOT NULL COMMENT '用户id',
-   `cate_id` SMALLINT(4) NOT NULL COMMENT '分类id',
+   `cate_id` SMALLINT(4) COMMENT '分类id',
    `article_title` VARCHAR(200) NOT NULL COMMENT '标题',
    `article_keywords` VARCHAR(255) COMMENT '关键词',
    `article_description` VARCHAR(500) COMMENT '描述',
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `blog_comment`(
    `user_id` BIGINT(20) COMMENT '用户id',
    `comment_content` TEXT COMMENT '评论内容',
    `comment_date` DATETIME COMMENT '评论时间',
-   `comment_status` TINYINT(2) NOT NULL COMMENT '状态0审核1发布2回收',
+   `comment_status` TINYINT(2) NOT NULL DEFAULT 0 COMMENT '状态0审核1发布2回收',
    `comment_parent` BIGINT(20) NOT NULL COMMENT '评论父级id',
    PRIMARY KEY ( `comment_id` ),
    KEY `articleid` (`article_id`)
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `blog_link`(
    `link_id` TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id',
    `link_name` VARCHAR(50) NOT NULL COMMENT '名称',
    `link_url` VARCHAR(255) NOT NULL COMMENT '链接地址',
-   `link_status` TINYINT(3) UNSIGNED NOT NULL COMMENT '状态0未启用1启用',
+   `link_status` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '状态0未启用1启用',
    PRIMARY KEY ( `link_id` )
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
