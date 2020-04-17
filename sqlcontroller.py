@@ -9,6 +9,7 @@ class SQLcontroller:
         if cls.__isinstance:  # 如果被实例化了
             return cls.__isinstance  # 返回实例化对象
         print('连接到数据库...')
+        # SQLcontroller.connect()
         # asyncio.get_event_loop().run_until_complete(SQLcontroller.connect())
         cls.__isinstance = object.__new__(cls)  # 否则实例化
         return cls.__isinstance  # 返回实例化的对象
@@ -59,24 +60,27 @@ class SQLcontroller:
     #     return res
 
     async def selectAll(self,sql):
-        data = {
-            'code': 0,
-            'data': None,
-            'msg': ''
-        }
-        conn = await SQLcontroller.__engine.acquire()
-        try:
-            result = await conn.execute(sql)
-            res = await result.fetchall()
-            data.data = res
-            return data
-        except Exception as e :
-            # return e
-            data.code = 100
-            data.msg = e
-            return data
-        finally:
-            pass
+        # data = {
+        #     'code': 0,
+        #     'data': None,
+        #     'msg': ''
+        # }
+        await SQLcontroller.connect()
+        # conn = await self.__engine.acquire()
+        async with SQLcontroller.__engine.acquire() as conn:
+            try:
+                result = await conn.execute(sql)
+                res = await result.fetchall()
+                # data['data'] = res
+                print(res)
+                return res
+            except Exception as e :
+                # return e
+                # data['code'] = 100
+                # data['msg'] = e
+                return e
+            finally:
+                pass
 
     # 查询一条
     # def selectOne(self,sql):

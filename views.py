@@ -23,4 +23,10 @@ async def sql(request):
     querysql = blog_site.select()
     print(querysql)
     res = await SQL.selectAll(querysql)
-    return web.json_response(res)
+    data = {
+        'code': 0,
+        'data': res,
+        'msg' :''
+    }
+    print(data)
+    return web.json_response(data)
