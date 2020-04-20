@@ -59,85 +59,9 @@ class SQLcontroller:
     #     res = await select()
     #     return res
 
-    async def selectAll(self,sql):
-        # data = {
-        #     'code': 0,
-        #     'data': None,
-        #     'msg': ''
-        # }
+    async def querySql(self,sql):
         await SQLcontroller.connect()
         # conn = await self.__engine.acquire()
         async with SQLcontroller.__engine.acquire() as conn:
-            try:
-                result = await conn.execute(sql)
-                res = await result.fetchall()
-                # data['data'] = res
-                print(res)
-                return res
-            except Exception as e :
-                # return e
-                # data['code'] = 100
-                # data['msg'] = e
-                return e
-            finally:
-                pass
-
-    # 查询一条
-    # def selectOne(self,sql):
-    #     async def first():
-    #         conn = await SQLcontroller.__engine.acquire()
-    #         try:
-    #             result = await conn.execute(sql)
-    #             res = await result.fetchone()
-    #             return res
-    #         except Exception as e :
-    #             print(e)
-    #         finally:
-    #             # SQLcontroller.__engine.release(conn)
-    #             pass
-    #     # asyncio.get_event_loop().run_until_complete(first())
-    
-    # # 增加数据
-    # def addData(self,sql):
-    #     async def add():
-    #         conn = await SQLcontroller.__engine.acquire()
-    #         try:
-    #             result = await conn.execute(sql)
-    #             # res = await result.fetchone()
-    #             return result
-    #         except Exception as e :
-    #             print(e)
-    #         finally:
-    #             # SQLcontroller.__engine.release(conn)
-    #             pass
-    #     # asyncio.get_event_loop().run_until_complete(add())
-
-    # # 修改数据
-    # def updateData(self,sql):
-    #     async def update():
-    #         conn = await SQLcontroller.__engine.acquire()
-    #         try:
-    #             result = await conn.execute(sql)
-    #             # res = await result.fetchone()
-    #             return result
-    #         except Exception as e :
-    #             print(e)
-    #         finally:
-    #             # SQLcontroller.__engine.release(conn)
-    #             pass
-    #     # asyncio.get_event_loop().run_until_complete(update())
-
-    # # 删除数据
-    # def delData(self,sql):
-        # async def delete():
-        #     conn = await SQLcontroller.__engine.acquire()
-        #     try:
-        #         result = await conn.execute(sql)
-        #         # res = await result.fetchone()
-        #         return result
-        #     except Exception as e :
-        #         print(e)
-        #     finally:
-        #         # SQLcontroller.__engine.release(conn)
-        #         pass
-        # asyncio.get_event_loop().run_until_complete(delete())
+            result = await conn.execute(sql)
+            return result
