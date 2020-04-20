@@ -5,10 +5,10 @@ use `blog`;
 
 --主表/基本站点信息
 CREATE TABLE IF NOT EXISTS `blog_site`(
-   `site_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id',
+   `site_id` INT(10) UNSIGNED AUTO_INCREMENT COMMENT '自增id',
    `site_key` VARCHAR(255) NOT NULL UNIQUE COMMENT '键',
-   `site_name` VARCHAR(255) NOT NULL UNIQUE COMMENT '名称',
-   `site_value` TEXT NOT NULL COMMENT '值',
+   `site_name` VARCHAR(255) NOT NULL COMMENT '名称',
+   `site_value` TEXT COMMENT '值',
    PRIMARY KEY ( `site_id` ),
    KEY `sitekey` (`site_key`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -24,7 +24,7 @@ INSERT INTO `blog_site` (`site_key`, `site_name`) VALUES ('site_views_count','�
 
 --用户表
 CREATE TABLE IF NOT EXISTS `blog_user`(
-   `user_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id',
+   `user_id` BIGINT(20) UNSIGNED AUTO_INCREMENT COMMENT '自增id',
    `user_name` VARCHAR(50) NOT NULL UNIQUE COMMENT '用户名',
    `user_password` CHAR(32) NOT NULL COMMENT '密码',
    `user_email` VARCHAR(255) UNIQUE COMMENT '邮箱',
@@ -49,7 +49,7 @@ VALUES ('admin','3b76c77bbfa55eb9e96c5a60d9a2b848',99,NOW(),NOW(),1);
 
 --类目表
 CREATE TABLE IF NOT EXISTS `blog_cate`(
-   `cate_id` SMALLINT(4) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id',
+   `cate_id` SMALLINT(4) UNSIGNED AUTO_INCREMENT COMMENT '自增id',
    `cate_name` VARCHAR(50) NOT NULL UNIQUE COMMENT '类目名',
    `cate_title` VARCHAR(200) COMMENT '标题',
    `cate_keywords` VARCHAR(255) COMMENT '关键词',
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `blog_cate`(
 
 --文章表
 CREATE TABLE IF NOT EXISTS `blog_article`(
-   `article_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id',
+   `article_id` BIGINT(20) UNSIGNED AUTO_INCREMENT COMMENT '自增id',
    `user_id` BIGINT(20) NOT NULL COMMENT '用户id',
    `cate_id` SMALLINT(4) COMMENT '分类id',
    `article_title` VARCHAR(200) NOT NULL COMMENT '标题',
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `blog_article`(
 
 --评论表
 CREATE TABLE IF NOT EXISTS `blog_comment`(
-   `comment_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id',
+   `comment_id` BIGINT(20) UNSIGNED AUTO_INCREMENT COMMENT '自增id',
    `article_id` BIGINT(20) NOT NULL COMMENT '文章id',
    `user_id` BIGINT(20) COMMENT '用户id',
    `comment_content` TEXT COMMENT '评论内容',
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `blog_comment`(
 
 --友情连接
 CREATE TABLE IF NOT EXISTS `blog_link`(
-   `link_id` TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id',
+   `link_id` TINYINT(3) UNSIGNED AUTO_INCREMENT COMMENT '自增id',
    `link_name` VARCHAR(50) NOT NULL COMMENT '名称',
    `link_url` VARCHAR(255) NOT NULL COMMENT '链接地址',
    `link_status` TINYINT(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '状态0未启用1启用',
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `blog_link`(
 
 --标签表
 CREATE TABLE IF NOT EXISTS `blog_tag`(
-   `tag_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id',
+   `tag_id` BIGINT(20) UNSIGNED AUTO_INCREMENT COMMENT '自增id',
    `tag_name` VARCHAR(50) NOT NULL COMMENT '标签名',
    `tag_alias` VARCHAR(80) NOT NULL COMMENT '标签别名',
    `tag_order` TINYINT(2) UNSIGNED NOT NULL DEFAULT 10 COMMENT 'tag排序',
