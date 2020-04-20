@@ -18,15 +18,21 @@ async def hello(request):
     return web.Response(text=text)
 
 async def sql(request):
-    SQL = SQLcontroller() # 创建sql操作对象
-    print(SQL)
-    querysql = blog_site.select()
-    print(querysql)
-    res = await SQL.selectAll(querysql)
     data = {
         'code': 0,
-        'data': res,
+        'data': None,
         'msg' :''
     }
-    print(data)
-    return web.json_response(data)
+    try:
+        SQL = SQLcontroller() # 创建sql操作对象
+        querysql = blog_site.select() # sql 语句
+        result = await SQL.querySql(querysql) # sql执行
+        res = await result.fetchall()
+        data['data'] = [{'id':i[0],'site_key':i[1],'site_name':i[2],'site_value':i[3]} for i in res]
+    except Exception as e :
+        print(e)
+        data['code'] = -100
+        data['msg'] = str(e)
+    finally:
+        print(data)
+        return web.json_response(data)
