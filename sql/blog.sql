@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `blog_site`(
 
 INSERT INTO `blog_site` (`site_key`, `site_name`) VALUES ('site_name','站点名称');
 INSERT INTO `blog_site` (`site_key`, `site_name`) VALUES ('site_url','网址');
-INSERT INTO `blog_site` (`site_key`, `site_name`) VALUES ('site_title','站点名称');
+INSERT INTO `blog_site` (`site_key`, `site_name`) VALUES ('site_title','网站标题');
 INSERT INTO `blog_site` (`site_key`, `site_name`) VALUES ('site_keywords','关键词');
 INSERT INTO `blog_site` (`site_key`, `site_name`) VALUES ('site_descript','描述');
 INSERT INTO `blog_site` (`site_key`, `site_name`) VALUES ('site_email','站点邮箱');
