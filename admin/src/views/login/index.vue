@@ -61,7 +61,8 @@ export default {
     return {
       ruleForm: {
         username: '',
-        password: ''
+        pass: '',
+        checkPass: ''
       },
       rules: {
         username: [
@@ -78,9 +79,15 @@ export default {
   },
   methods: {
     queryLogin() {
-      login().then(res => {
+      const param = {
+        data: {
+          username: this.ruleForm.username,
+          password: this.ruleForm.pass,
+        }
+      }
+      login(param).then(res => {
         console.log(res)
-        this.$router.push({ path: '/' })
+        // this.$router.push({ path: '/' })
       }, err => {
         console.log(err)
       })

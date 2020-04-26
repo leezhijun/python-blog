@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
-import { getToken } from './auth.js'
+import { getToken,saveToken } from './auth.js'
 
-const baseUrl = 'http://localhost:8081/'
+const baseUrl = 'http://localhost:8090/'
 
 // 创建axios实例
 const service = axios.create({
@@ -13,7 +13,7 @@ const service = axios.create({
 
 // 请求前拦截
 service.interceptors.request.use(config => {
-  config.headers['authToken'] = getToken()
+  config.headers['Authorization'] = getToken()
   return config
 },err => {
   console.log(err)
@@ -25,6 +25,10 @@ service.interceptors.response.use(
   response => { // 请求有响应
     const res = response.data
     console.log('response---',response)
+    if (response.headers['Authorization']) {
+      const token = response.headers['Authorization'];
+      saveToken(token)
+    }
     if (res.code===0) { // 数据返回正常
       return res
     } else { // 数据返回不正常

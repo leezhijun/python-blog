@@ -1,7 +1,7 @@
 import Mock from 'mockjs'
 
 // 正常登陆
-Mock.mock('http://localhost:8081/api/v1/login',{
+Mock.mock('http://localhost:8081/mockApi/v1/login',{
   code: 0,
   data: {
     username: 'test',
@@ -11,13 +11,13 @@ Mock.mock('http://localhost:8081/api/v1/login',{
 })
 
 // 登陆报错
-// Mock.mock('http://localhost:8081/api/v1/login',{
+// Mock.mock('http://localhost:8081/mockApi/v1/login',{
 //   code: 100,
 //   data: {},
 //   message: '登陆失效'
 // })
 
-Mock.mock('http://localhost:8081/api/v1/getSiteExpandList',{
+Mock.mock('http://localhost:8081/mockApi/v1/getSiteExpandList',{
   code: 0,
   data: {
     data: [
@@ -41,7 +41,7 @@ Mock.mock('http://localhost:8081/api/v1/getSiteExpandList',{
   }
 })
 
-Mock.mock('http://localhost:8081/api/v1/getUserList',{
+Mock.mock('http://localhost:8081/mockApi/v1/getUserList',{
   code: 0,
   data: {
     data: [
@@ -77,7 +77,7 @@ Mock.mock('http://localhost:8081/api/v1/getUserList',{
   }
 })
 
-Mock.mock('http://localhost:8081/api/v1/getCateList',{
+Mock.mock('http://localhost:8081/mockApi/v1/getCateList',{
   code: 0,
   data: {
     data: [
@@ -101,7 +101,7 @@ Mock.mock('http://localhost:8081/api/v1/getCateList',{
   }
 })
 
-Mock.mock('http://localhost:8081/api/v1/getArticleList',{
+Mock.mock('http://localhost:8081/mockApi/v1/getArticleList',{
   code: 0,
   data: {
     data: [
