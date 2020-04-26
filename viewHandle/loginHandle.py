@@ -7,6 +7,7 @@ sys.path.append(rootPath)
 from sqlcontroller import SQLcontroller
 from model import blog_site, blog_user
 from untils.encryption import base_64, hmac_sha256
+from sqlalchemy.sql import and_, or_, not_
 from aiohttp import web
 
 class loginHandle:
@@ -19,8 +20,11 @@ class loginHandle:
             'data': None,
             'msg' :''
         }
-        param = json.loads(request._payload._buffer[0])['data']
-        print(param)
+        print(request._payload._buffer)
+        # param = json.loads(request._payload._buffer[0])["data"]
+        user_name = '123'
+        user_password = 'param.password'
+        # print(param)
         Header = {
             "alg": "HS256",
             "typ": "JWT"
@@ -41,10 +45,11 @@ class loginHandle:
         # return web.json_response(data,headers=headers)
         try:
             SQL = SQLcontroller() # 创建sql操作对象
-            querysql = blog_site.select() # sql 语句
-            result = await SQL.querySql(querysql) # sql执行
-            res = await result.fetchall()
-            data['data'] = [{'id':i[0],'site_key':i[1],'site_name':i[2],'site_value':i[3]} for i in res]
+            querysql = blog_user.select().where(and_(blog_user.c.user_name == user_name,blog_user.c.name.user_password==user_password)) # sql 语句
+            print('---',querysql)
+            # result = await SQL.querySql(querysql) # sql执行
+            # res = await result.fetchall()
+            # data['data'] = [{'id':i[0],'site_key':i[1],'site_name':i[2],'site_value':i[3]} for i in res]
         except Exception as e :
             print(e)
             data['code'] = -100
