@@ -7,3 +7,8 @@ export const getToken = () => {
 export const saveToken = (token) => {
   sessionStorage['Token'] = token
 }
+
+// 清除token
+export const clearToken = (token) => {
+  sessionStorage.removeItem('Token')
+}

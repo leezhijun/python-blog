@@ -15,7 +15,7 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>基本信息</el-dropdown-item>
             <el-dropdown-item>修改密码</el-dropdown-item>
-            <el-dropdown-item>退出登陆</el-dropdown-item>
+            <el-dropdown-item @click="handleLoginOut">退出登陆</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
@@ -23,6 +23,8 @@
   </el-header>
 </template>
 <script>
+import { loginOut } from '@/api/login'
+import { clearToken } from '@/utils/auth.js'
 import { mapGetters } from 'vuex'
 export default {
   name: 'Header',
@@ -42,6 +44,17 @@ export default {
   methods: {
     toggleCollapse() {
       this.$store.commit('toggleCollapse')
+    },
+    handleLoginOut() {
+      console.log(11111111111111111111111111111111)
+      loginOut().then(res => {
+        console.log(res)
+        clearToken()
+        this.$router.push({ path: '/login' })
+      }, err => {
+        this.$message.error(err.msg);
+        console.log(err)
+      })
     }
   },
   mounted () {

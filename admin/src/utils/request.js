@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
-import { getToken,saveToken } from './auth.js'
+import { getToken,saveToken,clearToken } from './auth.js'
 
 const baseUrl = 'http://localhost:8090/'
 
@@ -13,7 +13,7 @@ const service = axios.create({
 
 // 请求前拦截
 service.interceptors.request.use(config => {
-  config.headers['Authorization'] = getToken()
+  config.headers['authorization'] = getToken()
   return config
 },err => {
   console.log(err)
@@ -25,19 +25,20 @@ service.interceptors.response.use(
   response => { // 请求有响应
     const res = response.data
     console.log('response---',response)
-    if (response.headers['Authorization']) {
-      const token = response.headers['Authorization'];
+    if (response.headers['authorization']) {
+      const token = response.headers['authorization'];
       saveToken(token)
     }
     if (res.code===0) { // 数据返回正常
       return res
     } else { // 数据返回不正常
-      if (res.code===100) { // 没有登陆，或者登陆失效
+      if (res.code===100||res.code===101) { // 登陆失效/token错误
         Message({
-          message: '登陆失效，请重新登陆后操作!',
+          message: res.msg,
           type: 'error',
           duration: 3 * 1000,
           onClose: ()=>{
+            clearToken()
             location.href = '/login'
           }
         })

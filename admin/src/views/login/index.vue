@@ -28,6 +28,7 @@
 </template>
 <script>
 import { login } from '@/api/login'
+import { getToken } from '@/utils/auth.js'
 export default {
   name: 'LoginPage',
   data () {
@@ -87,8 +88,9 @@ export default {
       }
       login(param).then(res => {
         console.log(res)
-        // this.$router.push({ path: '/' })
+        this.$router.push({ path: '/' })
       }, err => {
+        this.$message.error(err.msg);
         console.log(err)
       })
     },
@@ -104,6 +106,12 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    }
+  },
+  mounted () {
+    const token = getToken() // 获取token
+    if (token) { // 有值表示已经登陆
+      this.$router.push({ path: '/' })
     }
   }
 }

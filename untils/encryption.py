@@ -63,5 +63,14 @@ def base_64(value):
     """
     return base64.b64encode(value.encode('utf-8')).decode('utf-8')
 
+def debase_64(result):
+    """
+    base64解密
+    return:加密结果
+    """
+    return base64.b64decode(result)
 
 # print(base_64('ceshi'))
+
+if __name__ == "__main__":
+    print(jm_md5("blog", "123456")) # 8cef992a5af6b216dd3c62ae39f4a13b
