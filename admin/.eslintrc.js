@@ -30,6 +30,7 @@ module.exports = {
     'keyword-spacing': 'off',
     'camelcase': 'off',
     'curly': 'off',
-    'no-mixed-spaces-and-tabs': 'off'
+    'no-mixed-spaces-and-tabs': 'off',
+    'no-useless-escape': 'off'
   }
 }

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+import { getToken } from '@/utils/auth'
+import { Message } from 'element-ui'
 /* Layout */
 import Layout from '@/layout'
 
@@ -14,6 +15,10 @@ const constantRoutes = [
     redirect: '/index',
     children: [
       {
+        name: 'IndexPage',
+        meta: {
+          title: '首页'
+        },
         path: 'index',
         component: () => import('@/views/index')
       }
@@ -30,19 +35,34 @@ const constantRoutes = [
   {
     path: '/site',
     name: 'SitePage',
+    meta: {
+      title: '站点设置'
+    },
     component: Layout,
     redirect: '/site/index',
     children: [
       {
         path: 'index',
+        name: 'SiteIndex',
+        meta: {
+          title: '基础配置'
+        },
         component: () => import('@/views/site')
       },
       {
         path: 'emial',
+        name: 'SiteEmail',
+        meta: {
+          title: '邮箱配置'
+        },
         component: () => import('@/views/site/emial')
       },
       {
         path: 'expand',
+        name: 'SiteExpand',
+        meta: {
+          title: '拓展配置'
+        },
         component: () => import('@/views/site/expand')
       },
     ]
@@ -50,6 +70,9 @@ const constantRoutes = [
   {
     path: '/user',
     name: 'UserPage',
+    meta: {
+      title: '用户设置'
+    },
     component: Layout,
     redirect: '/user/index',
     children: [
@@ -169,3 +192,35 @@ export function resetRouter () {
 }
 
 export default router
+
+// 设置title
+router.afterEach(to => {
+  document.title = to.meta.title;
+  const keywords = document.querySelector('meta[name="keywords"]');
+  const description = document.querySelector('meta[name="description"]');
+  keywords.content = to.meta.keywords?to.meta.keywords:to.meta.title;
+  description.content = to.meta.description?to.meta.description:to.meta.title;
+});
+
+// 登陆过滤
+router.beforeEach((to, from, next) => {
+  console.log(to, from, next)
+  if (to.name!=='LoginPage') {
+    const token = getToken()
+    if (token) { // 登陆
+      next()
+    } else {
+      // next({ name: 'LoginPage' })
+      Message({
+        message: '登陆后超作!',
+        type: 'error',
+        duration: 3 * 1000,
+        onClose: ()=>{
+          next({ name: 'LoginPage' })
+        }
+      })
+    }
+  } else {
+    next()
+  }
+})

@@ -111,7 +111,7 @@ export default {
   mounted () {
     const token = getToken() // 获取token
     if (token) { // 有值表示已经登陆
-      this.$router.push({ path: '/' })
+      this.$router.push({ name: 'HomePage' })
     }
   }
 }

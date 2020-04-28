@@ -8,14 +8,14 @@
         <span class="ml20">{{routerName}}</span>
       </el-col>
       <el-col class="tr" :span="6">
-        <el-dropdown>
+        <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
             admin<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>基本信息</el-dropdown-item>
-            <el-dropdown-item>修改密码</el-dropdown-item>
-            <el-dropdown-item @click="handleLoginOut">退出登陆</el-dropdown-item>
+            <el-dropdown-item command="a">基本信息</el-dropdown-item>
+            <el-dropdown-item command="b">修改密码</el-dropdown-item>
+            <el-dropdown-item command="c">退出登陆</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
@@ -45,12 +45,23 @@ export default {
     toggleCollapse() {
       this.$store.commit('toggleCollapse')
     },
-    handleLoginOut() {
-      console.log(11111111111111111111111111111111)
+    handleCommand(command) {
+      // this.$message('click on item ' + command);
+      if (command==='a') {
+
+      }
+      if (command==='b') {
+
+      }
+      if (command==='c') { // 退出登陆
+        this.handleLoginOut()
+      }
+    },
+    handleLoginOut() { // 退出
       loginOut().then(res => {
         console.log(res)
         clearToken()
-        this.$router.push({ path: '/login' })
+        this.$router.push({ name: 'LoginPage' })
       }, err => {
         this.$message.error(err.msg);
         console.log(err)
