@@ -48,20 +48,16 @@ class siteHandle:
             SQL = SQLcontroller() # 创建sql操作对象
             # sql 语句
             stmt = blog_site.update(None).where(blog_site.c.site_key == bindparam('oldname')).values(site_value=bindparam('newname'))
-            querysql = (
-                stmt,
-                [
-                    {'oldname':'site_name', 'newname': param['site_name']},
-                    {'oldname':'site_url', 'newname': param['site_url']},
-                    {'oldname':'site_title', 'newname': param['site_title']},
-                    {'oldname':'site_keywords', 'newname': param['site_keywords']},
-                    {'oldname':'site_descript', 'newname': param['site_descript']},
-                    {'oldname':'site_email', 'newname': param['site_email']},
-                    {'oldname':'site_copy', 'newname': param['site_copy']},
-                ]
-            )
-            print(querysql)
-            result = await SQL.querySql(querysql) # sql执行
+            sqldata = [
+                {'oldname':'site_name', 'newname': param['site_name']},
+                {'oldname':'site_url', 'newname': param['site_url']},
+                {'oldname':'site_title', 'newname': param['site_title']},
+                {'oldname':'site_keywords', 'newname': param['site_keywords']},
+                {'oldname':'site_descript', 'newname': param['site_descript']},
+                {'oldname':'site_email', 'newname': param['site_email']},
+                {'oldname':'site_copy', 'newname': param['site_copy']},
+            ]
+            result = await SQL.queryManySql(stmt,sqldata) # sql执行
             print(result)
             res = result.rowcount # fetchall()/fetchone()/fetchmany()/first()
             print(res)

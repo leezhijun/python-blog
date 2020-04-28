@@ -21,3 +21,7 @@ def set_routers(app):
     app.router.add_post('/loginOut', login_Handle.loginOut)
     app.router.add_post('/siteIndex', siteHandle.siteIndex)
     app.router.add_post('/updateSiteIndex', siteHandle.updateSiteIndex)
+    app.router.add_post('/addCate', cateHandle.addCate)
+    app.router.add_post('/cateDelete', cateHandle.cateDelete)
+    app.router.add_post('/cateUpdate', cateHandle.cateUpdate)
+    app.router.add_post('/cateSelect', cateHandle.cateSelect)

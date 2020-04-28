@@ -6,17 +6,21 @@
         <el-row :gutter="10">
           <el-col :span="5">
             <el-form-item label="分类id">
-              <el-input v-model="form.id" placeholder="分类id"></el-input>
+              <el-input v-model="form.cate_id" placeholder="分类id"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="分类名">
-              <el-input v-model="form.name" placeholder="nickname"></el-input>
+              <el-input v-model="form.cate_name" placeholder="分类名"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="邮箱">
-              <el-input v-model="form.emial" placeholder="xxxx@qq.com"></el-input>
+            <el-form-item label="启用">
+              <el-switch
+                v-model="form.show"
+                active-text=""
+                inactive-text="">
+              </el-switch>
             </el-form-item>
           </el-col>
           <el-col :span="4"><el-button type="primary" @click="onSubmit">搜索</el-button></el-col>
@@ -101,8 +105,8 @@ export default {
       total: 0,
       dialogVisible: false,
       form: {
-        name: '', // cate名称
-        nickename: '' // cate昵称
+        cate_id: '', // cate_id
+        cate_name: '' // cate_name
       },
       tableData: []
     }

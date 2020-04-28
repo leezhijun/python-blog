@@ -25,17 +25,17 @@ blog_user = sa.Table('blog_user', metadata,
     sa.Column('user_status', sa.SmallInteger, default=0),    
 )
 
-# blog_cate = sa.Table('blog_cate', metadata,
-#     sa.Column('cate_id', sa.SmallInteger, primary_key=True),
-#     sa.Column('cate_name', sa.String(50), nullable=False),
-#     sa.Column('cate_title', sa.String(200)),
-#     sa.Column('cate_keywords', sa.String(255)),
-#     sa.Column('cate_description', sa.String(500)),
-#     sa.Column('cate_img', sa.String(255)),
-#     sa.Column('cate_order', sa.SmallInteger, nullable=False, default=10),
-#     sa.Column('cate_show', sa.SmallInteger, nullable=False, default=1),
-#     sa.Column('cate_parent_id', sa.SmallInteger, nullable=False),
-# )
+blog_cate = sa.Table('blog_cate', metadata,
+    sa.Column('cate_id', sa.SmallInteger, primary_key=True),
+    sa.Column('cate_name', sa.String(50), nullable=False),
+    sa.Column('cate_title', sa.String(200)),
+    sa.Column('cate_keywords', sa.String(255)),
+    sa.Column('cate_description', sa.String(500)),
+    sa.Column('cate_img', sa.String(255)),
+    sa.Column('cate_order', sa.SmallInteger, nullable=False, default=10),
+    sa.Column('cate_show', sa.SmallInteger, nullable=False, default=1),
+    sa.Column('cate_parent_id', sa.SmallInteger, nullable=False),
+)
 
 # blog_article = sa.Table('blog_article', metadata,
 #     sa.Column('article_id', sa.BigInteger, primary_key=True),

@@ -65,3 +65,10 @@ class SQLcontroller:
         async with SQLcontroller.__engine.acquire() as conn:
             result = await conn.execute(sql)
             return result
+
+    async def queryManySql(self,temp,data):
+        await SQLcontroller.connect()
+        # conn = await self.__engine.acquire()
+        async with SQLcontroller.__engine.acquire() as conn:
+            result = await conn.execute(temp,data)
+            return result
