@@ -1,32 +1,32 @@
 import request from '@/utils/request.js'
 
-export function getArticleList(data) {
+export function getTagList(data) {
   return request({
-    url: '/articleSelect',
+    url: '/tagSelect',
     method: 'post',
     data
   })
 }
 
-export function addArticle(data) {
+export function addTag(data) {
   return request({
-    url: '/addArticle',
+    url: '/addTag',
     method: 'post',
     data
   })
 }
 
-export function articleDelete(data) {
+export function tagDelete(data) {
   return request({
-    url: '/articleDelete',
+    url: '/tagDelete',
     method: 'post',
     data
   })
 }
 
-export function articleUpdate(data) {
+export function tagUpdate(data) {
   return request({
-    url: '/articleUpdate',
+    url: '/tagUpdate',
     method: 'post',
     data
   })

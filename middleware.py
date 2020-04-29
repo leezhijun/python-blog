@@ -4,12 +4,12 @@ from untils.encryption import debase_64, base_64, hmac_sha256, jm_md5
 import json
 @web.middleware
 async def middleware1(request, handler):
-    print('Middleware开始')
-    print(request.raw_headers)
+    # print('Middleware开始')
+    # print(request.raw_headers)
     headers = {}
     for (key,value) in request.raw_headers:
         headers[str(key, "utf-8")] = str(value, "utf-8")
-    print(headers.get('authorization',None))
+    # print(headers.get('authorization',None))
     authorization = headers.get('authorization',None)
     data = {
         'code': 0,
@@ -18,32 +18,32 @@ async def middleware1(request, handler):
     }
     if authorization: # 验证JWT
         YZ = checkJWT(authorization)
-        print(YZ)
+        # print(YZ)
         if YZ['isTrue']: # jwt 正确
-            print('jwt正确')
+            # print('jwt正确')
             if YZ['isOver']: # jwt过期
-                print('jwt过期')
+                # print('jwt过期')
                 data['code'] = 100
                 data['msg'] = '用户登陆过期!'
                 return web.json_response(data)
             else:
-                print('jwt正常进入处理请求函数')
+                # print('jwt正常进入处理请求函数')
                 response = await handler(request,YZ['payload'])
                 if YZ['newJWT']: # 有新的jwt
-                    print(YZ['newJWT'])
+                    # print(YZ['newJWT'])
                     response.headers['Authorization'] = YZ['newJWT']
                     return response
                 else:
                     return response
         else : #jwt 错误
-            print('jwt 错误')
+            # print('jwt 错误')
             data['code'] = 101
             data['msg'] = 'token验证失败!'
             return web.json_response(data)
 
     else :
         response = await handler(request)
-        print('Middleware结束')
+        # print('Middleware结束')
         return response
 
 def checkJWT(authorization):
@@ -52,7 +52,7 @@ def checkJWT(authorization):
     """
     arr = authorization.split('.')
     Payload =json.loads(debase_64(arr[1])) 
-    print(Payload)
+    # print(Payload)
     data = {
         'isTrue': False, # jwt是否正确
         'isOver': False, # jwt是否过期

@@ -24,9 +24,25 @@ export function cateDelete(data) {
   })
 }
 
+export function cateUpdateShow(data) {
+  return request({
+    url: '/cateUpdateShow',
+    method: 'post',
+    data
+  })
+}
+
 export function cateUpdate(data) {
   return request({
     url: '/cateUpdate',
+    method: 'post',
+    data
+  })
+}
+
+export function cateOneAll(data) {
+  return request({
+    url: '/cateOneAll',
     method: 'post',
     data
   })

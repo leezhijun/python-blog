@@ -19,7 +19,7 @@
           active-text-color="#ffd04b">
           <el-submenu index="/site">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-s-tools"></i>
               <span>网站设置</span>
             </template>
             <el-menu-item-group>
@@ -40,16 +40,16 @@
             </el-menu-item-group>
           </el-submenu>
           <el-menu-item index="/cate">
-            <i class="el-icon-location"></i>
+            <i class="el-icon-s-order"></i>
             <span>分类管理</span>
           </el-menu-item>
           <el-menu-item index="/tag">
-            <i class="el-icon-location"></i>
+            <i class="el-icon-s-management"></i>
             <span>标签管理</span>
           </el-menu-item>
           <el-submenu index="/article">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-s-promotion"></i>
               <span>文章管理</span>
             </template>
             <el-menu-item-group>

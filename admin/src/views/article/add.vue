@@ -2,8 +2,8 @@
   <div class="article-page">
     <div class="boder1 pb10 pt10 pl10">发布文章</div>
     <div class="mt15">
-      <el-form class="mt30" ref="form" :model="form" label-width="120px">
-        <el-form-item label="标题">
+      <el-form class="mt30" ref="form" label-position="left" :model="form" label-width="80px">
+        <el-form-item label="文章标题">
           <el-input v-model="form.article_title" placeholder="文章标题"></el-input>
         </el-form-item>
         <el-form-item label="关键词">
@@ -12,15 +12,30 @@
         <el-form-item label="网页描述">
           <el-input v-model="form.article_description" type="textarea" :row="2" placeholder="网页描述"></el-input>
         </el-form-item>
-        <el-form-item label="文章类型">
-          <el-radio v-model="form.article_type" :label="1">文章</el-radio>
-          <el-radio v-model="form.article_type" :label="2">单页</el-radio>
-        </el-form-item>
-        <el-form-item label="权重">
-          <el-input-number  size="mini" v-model="form.article_order" :min="1" :max="100"></el-input-number>
+        <el-row :gutter="10">
+          <el-col :span="8">
+            <el-form-item label="类型">
+              <el-radio v-model="form.article_type" :label="1">文章</el-radio>
+              <el-radio v-model="form.article_type" :label="2">单页</el-radio>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="推荐">
+              <el-switch v-model="form.article_is_push"></el-switch>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="热门">
+              <el-switch v-model="form.article_is_hot"></el-switch>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-form-item label="权重排序">
+          <el-input-number v-model="form.article_order" :max="99" :controls="false" :step='1' step-strictly></el-input-number>
         </el-form-item>
         <el-form-item label="类目选择" v-if="form.article_type===1">
-          <el-select v-model="value" placeholder="请选择">
+          <el-select v-model="form.cate_id" placeholder="请选择">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -34,13 +49,15 @@
         <textarea id="simplemde"></textarea>
       </div>
       <div class="mt15 tc pb30">
-        <el-button @click="saveClick" type="default">保存</el-button>
-        <el-button @click="pushClick" type="primary">发布</el-button>
+        <el-button @click="submitClick(0)" type="default">保存</el-button>
+        <el-button @click="submitClick(1)" type="primary">发布</el-button>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { cateOneAll } from '@/api/cate'
+import { addArticle } from '@/api/article'
 import 'simplemde/dist/simplemde.min.css'
 import 'github-markdown-css'
 import SimpleMDE from 'simplemde'
@@ -50,38 +67,58 @@ export default {
     return {
       simplemde: null,
       form: {
+        cate_id: null,
         article_title: '',
         article_keywords: '',
         article_description: '',
         article_order: 10,
         article_content: '',
-        article_type: 1
+        article_type: 1,
+        article_is_hot: false,
+        article_is_push: false,
       },
-      options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
-        value: ''
+      options: [],
     }
   },
   methods: {
     handleClick() {},
-    saveClick() {
-      console.log(this.simplemde.value())
+    submitClick(type) {
+      // console.log(this.simplemde.value())
+      const param = {
+        data: this.form
+      }
+      param.data.article_is_hot = param.data.article_is_hot ? 1 : 0
+      param.data.article_is_push = param.data.article_is_push ? 1 : 0
+      param.data.article_status = type
+      param.data.article_content = this.simplemde.value()
+      this.loading = true
+      // console.log(param); return false;
+      addArticle(param).then(res => {
+        this.loading = false
+        this.$message(
+          {
+            message: type ? '发布成功!': '保存成功!',
+            type: 'success',
+          }
+        )
+      },err => {
+        this.loading = false
+        this.$message.error(err.msg);
+        console.log(err)
+      })
     },
-    pushClick() {}
+    qeuryOneList() {
+      cateOneAll().then(res => {
+        if (res.data.length>0) {
+          this.options = res.data.map(item => {
+            return { value: item.cate_id, label: item.cate_name }
+          })
+        }
+      },err => {
+        this.$message.error(err.msg);
+        console.log(err)
+      })
+    },
   },
   mounted () {
     const _this = this;
@@ -134,6 +171,7 @@ export default {
       }, "side-by-side", "fullscreen", "|", "guide"],
     });
     document.querySelector('.editor-preview-side').classList.add('markdown-body');
+    this.qeuryOneList();
   }
 }
 </script>
