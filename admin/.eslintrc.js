@@ -31,6 +31,7 @@ module.exports = {
     'camelcase': 'off',
     'curly': 'off',
     'no-mixed-spaces-and-tabs': 'off',
-    'no-useless-escape': 'off'
+    'no-useless-escape': 'off',
+    'no-unreachable': 'off'
   }
 }

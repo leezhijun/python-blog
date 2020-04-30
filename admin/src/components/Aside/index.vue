@@ -58,7 +58,7 @@
             </el-menu-item-group>
           </el-submenu>
           <el-menu-item index="/backup">
-            <i class="el-icon-menu"></i>
+            <i class="el-icon-upload"></i>
             <span slot="title">备份管理</span>
           </el-menu-item>
         </el-menu>

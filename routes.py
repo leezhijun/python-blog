@@ -25,7 +25,8 @@ def set_routers(app):
     app.router.add_post('/cateDelete', cateHandle.cateDelete) # 删除类目
     app.router.add_post('/cateUpdate', cateHandle.cateUpdate) # 修改类目
     app.router.add_post('/cateSelect', cateHandle.cateSelect) # 查询类目列表
-    app.router.add_post('/cateOneAll', cateHandle.cateOneAll) # 查询一级类目
+    app.router.add_post('/cateMenuAll', cateHandle.cateMenuAll) # 查询一级类目
+    app.router.add_post('/catelevels', cateHandle.catelevels) # 查询类目级联
     app.router.add_post('/cateUpdateShow', cateHandle.cateUpdateShow) # 修改类目是否默认菜单
     app.router.add_post('/addTag', tagHandle.addTag) # 添加标签
     app.router.add_post('/tagDelete', tagHandle.tagDelete) # 删除标签

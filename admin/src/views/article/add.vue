@@ -35,14 +35,15 @@
           <el-input-number v-model="form.article_order" :max="99" :controls="false" :step='1' step-strictly></el-input-number>
         </el-form-item>
         <el-form-item label="类目选择" v-if="form.article_type===1">
-          <el-select v-model="form.cate_id" placeholder="请选择">
+          <!-- <el-select v-model="form.cate_id" placeholder="请选择">
             <el-option
               v-for="item in options"
               :key="item.value"
               :label="item.label"
               :value="item.value">
             </el-option>
-          </el-select>
+          </el-select> -->
+          <el-cascader :options="options" :props="optionProps" v-model="cateArr" :show-all-levels="false"></el-cascader>
         </el-form-item>
       </el-form>
       <div class="editor">
@@ -56,7 +57,7 @@
   </div>
 </template>
 <script>
-import { cateOneAll } from '@/api/cate'
+import { catelevels } from '@/api/cate'
 import { addArticle } from '@/api/article'
 import 'simplemde/dist/simplemde.min.css'
 import 'github-markdown-css'
@@ -78,6 +79,13 @@ export default {
         article_is_push: false,
       },
       options: [],
+      cateArr: [],
+      optionProps: {
+        checkStrictly: true,
+        value: 'cate_id',
+        label: 'cate_name',
+        children: 'children'
+      },
     }
   },
   methods: {
@@ -108,11 +116,9 @@ export default {
       })
     },
     qeuryOneList() {
-      cateOneAll().then(res => {
+      catelevels().then(res => {
         if (res.data.length>0) {
-          this.options = res.data.map(item => {
-            return { value: item.cate_id, label: item.cate_name }
-          })
+          this.options = res.data
         }
       },err => {
         this.$message.error(err.msg);

@@ -9,7 +9,7 @@ from sqlcontroller import SQLcontroller
 from untils.dataHandle import retutnObj
 from model import blog_article
 from sqlalchemy.sql import and_, or_, not_
-# from untils.formatDate import formatDate
+from untils.formatDate import formatDate
 from aiohttp import web
 
 class articleHandle:
@@ -40,6 +40,8 @@ class articleHandle:
                     article_is_push=param['article_is_push'],
                     # article_img=param['article_img'],
                     article_content=param['article_content'],
+                    # article_publish_time=formatDate(timenow,'Y-m-d H-M-S'),
+                    # article_update_time=formatDate(timenow,'Y-m-d H-M-S'),
                     article_publish_time=timenow,
                     article_update_time=timenow,
                     article_browse_count=0,
@@ -165,6 +167,7 @@ class articleHandle:
                 'article_order',
                 'article_type',
             )
+            # print(res)
             data['data']['data'] = [retutnObj(tuple1,i) for i in res] if res else []
             data['data']['total'] = result2.rowcount
             # print(data['data'])

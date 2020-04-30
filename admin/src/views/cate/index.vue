@@ -85,14 +85,15 @@
               <el-input v-model="form2.cate_name" :maxlength="25" show-word-limit placeholder="请输入分类名"></el-input>
             </el-form-item>
             <el-form-item label="父级">
-              <el-select v-model="form2.cate_parent_id" placeholder="请选择">
+              <!-- <el-select v-model="form2.cate_parent_id" placeholder="请选择">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value">
                 </el-option>
-              </el-select>
+              </el-select> -->
+              <el-cascader :options="options" :props="optionProps" v-model="form2.cate_parent_id" :show-all-levels="false"></el-cascader>
             </el-form-item>
           </el-row>
         </el-form>
@@ -142,7 +143,7 @@
   </div>
 </template>
 <script>
-import { getCateList,addCate,cateDelete,cateUpdate,cateOneAll,cateUpdateShow } from '@/api/cate'
+import { getCateList,addCate,cateDelete,cateUpdate,catelevels,cateUpdateShow } from '@/api/cate'
 export default {
   name: 'userPage',
   data () {
@@ -173,8 +174,13 @@ export default {
       },
       tableData: [],
       options: [
-        { value: 0,label: '顶级栏目' }
+        { cate_id: 0,cate_name: '顶级栏目' }
       ],
+      optionProps: {
+        value: 'cate_id',
+        label: 'cate_name',
+        children: 'children'
+      },
       rules: {
         cate_name: [
           { required: true,message: '请输入分类名称',trigger: 'blur' }
@@ -250,9 +256,11 @@ export default {
       const param = {
         data: {
           cate_name: this.form2.cate_name,
-          cate_parent_id: this.form2.cate_parent_id
+          cate_parent_id: this.form2.cate_parent_id[this.form2.cate_parent_id.length-1]
         }
       }
+      // console.log(param)
+      // return false;
       this.loading = true
       addCate(param).then(res => {
         this.dialogVisible=false
@@ -333,7 +341,7 @@ export default {
       })
     },
     qeuryOneList() {
-      cateOneAll().then(res => {
+      catelevels().then(res => {
         if (res.data.length>0) {
           const data = res.data.map(item => {
             return { value: item.cate_id, label: item.cate_name }

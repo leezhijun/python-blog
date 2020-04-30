@@ -14,6 +14,15 @@
               <el-input v-model="form.article_title" placeholder="文章名"></el-input>
             </el-form-item>
           </el-col>
+          <!-- <el-col :span="5">
+              <el-cascader
+                placeholder="请选择类目"
+                v-model="cateArr"
+                :options="options"
+                :props="optionProps"
+                collapse-tags
+                clearable></el-cascader>
+          </el-col> -->
           <el-col :span="2"><el-button type="primary" @click="onSubmit('form')">搜索</el-button></el-col>
         </el-row>
       </el-form>
@@ -30,25 +39,62 @@
         </el-table-column> -->
         <el-table-column
           prop="article_id"
-          label="文章id"
+          label="ID"
           width="100">
         </el-table-column>
         <el-table-column
           prop="article_title"
-          label="文章名">
+          label="标题">
+        </el-table-column>
+        <el-table-column
+          prop="article_publish_time"
+          label="发布时间">
+        </el-table-column>
+        <el-table-column
+          prop="article_status"
+          label="状态">
+          <template slot-scope="scope">
+            {{scope.row.article_status | statusfiler}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="article_alias"
-          label="文章别名">
+          label="热门">
+          <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.cate_show"
+              @change="cateShowHandle(scope.row)"
+              >
+            </el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="article_alias"
+          label="推荐">
+          <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.cate_show"
+              @change="cateShowHandle(scope.row)"
+              >
+            </el-switch>
+          </template>
         </el-table-column>
         <el-table-column
           prop="article_order"
           label="排序">
         </el-table-column>
         <el-table-column
+          prop="article_like_count"
+          label="点赞">
+        </el-table-column>
+        <el-table-column
+          prop="article_browse_count"
+          label="浏览">
+        </el-table-column>
+        <el-table-column
           fixed="right"
           label="操作"
-          width="300">
+          width="180">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="primary" size="small">编辑</el-button>
             <el-button @click="delClick(scope.row)" type="danger" size="small">删除</el-button>
@@ -66,28 +112,6 @@
         </el-pagination>
       </div>
     </div>
-    <!-- 新增 -->
-    <el-dialog
-      title="新增文章"
-      :visible.sync="dialogVisible"
-      width="30%">
-      <div>
-        <el-form ref="form2" :model="form2" :rules="rules" label-width="80px">
-          <el-row :gutter="10">
-            <el-form-item label="文章名" prop="article_title">
-              <el-input v-model="form2.article_title" :maxlength="25" show-word-limit placeholder="请输入文章名"></el-input>
-            </el-form-item>
-            <el-form-item label="文章别名" prop="article_title">
-              <el-input v-model="form2.article_alias" :maxlength="25" show-word-limit placeholder="请输入文章别名"></el-input>
-            </el-form-item>
-          </el-row>
-        </el-form>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button size="small"  @click="dialogVisible = false">取 消</el-button>
-        <el-button size="small" :disabled="loading"  type="primary" @click="addHandle('form2')">确 定</el-button>
-      </span>
-    </el-dialog>
     <!-- 编辑 -->
     <el-dialog
       title="文章编辑"
@@ -96,7 +120,7 @@
       <div>
         <el-form ref="form3" :model="form3" :rules="rules" label-width="80px">
           <el-row :gutter="10">
-            <el-form-item label="文章名" prop="article_title">
+            <el-form-item label="标题" prop="article_title">
               <el-input v-model="form3.article_title" :maxlength="25" show-word-limit placeholder="请输入文章名"></el-input>
             </el-form-item>
             <el-form-item label="文章别名" prop="article_alias">
@@ -123,6 +147,7 @@
 </template>
 <script>
 import { getArticleList,addArticle,articleDelete,articleUpdate } from '@/api/article'
+import { catelevels } from '@/api/cate'
 export default {
   name: 'userPage',
   data () {
@@ -156,6 +181,35 @@ export default {
         article_alias: [
           { required: true,message: '请输入文章别名',trigger: 'blur' }
         ]
+      },
+      options: [],
+      cateArr: [],
+      optionProps: {
+        multiple: true,
+        checkStrictly: true,
+        value: 'cate_id',
+        label: 'cate_name',
+        children: 'children'
+      },
+    }
+  },
+  filters: {
+    statusfiler: function(key) {
+      switch (key) {
+        case 0:
+          return '草稿';
+          break;
+        case 1:
+          return '公开';
+          break;
+        case 2:
+          return '审核';
+          break;
+        case 3:
+          return '回收站';
+          break;
+        default:
+          break;
       }
     }
   },
@@ -190,7 +244,7 @@ export default {
     },
     delClick(row) {
       console.log(row)
-      this.$confirm('此操作将永久删除该类目, 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -212,6 +266,18 @@ export default {
           pageSize: this.pageSize
         }
       }
+      if (this.cateArr.length>0) {
+        let a = []
+        for (let index = 0; index < this.cateArr.length; index++) {
+          const element = this.cateArr[index];
+          a = [...a, ...element]
+        }
+        console.log(a)
+        const cateTulp = new Set(a)
+        // console.log(cateTulp)
+        param.data.cateArr = [...cateTulp].join(',')
+      }
+      // console.log('queryList--',param); return false;
       getArticleList(param).then(res => {
         this.tableData = res.data.data
         this.total = res.data.total;
@@ -219,42 +285,6 @@ export default {
         this.$message.error(err.msg);
         console.log(err)
       })
-    },
-    addArticleQuery() {
-      const param = {
-        data: {
-          article_title: this.form2.article_title,
-          article_alias: this.form2.article_alias
-        }
-      }
-      this.loading = true
-      addArticle(param).then(res => {
-        this.dialogVisible=false
-        this.loading = false
-        this.queryList()
-        this.resetForm('form2')
-        this.$message(
-          {
-            message: '添加成功!',
-            type: 'success',
-          }
-        )
-      },err => {
-        this.loading = false
-        this.$message.error(err.msg);
-        console.log(err)
-      })
-    },
-    addHandle(form) {
-      this.$refs[form].validate((valid) => {
-        console.log(valid)
-        if (valid) {
-          this.addArticleQuery();
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
-      });
     },
     updateQuery() {
       const param = {
@@ -305,9 +335,28 @@ export default {
         console.log(err)
       })
     },
+    qeuryOneList() {
+      catelevels().then(res => {
+        if (res.data.length>0) {
+          // const data = res.data.map(item => {
+          //   return { value: item.cate_id, label: item.cate_name }
+          // })
+          const data = res.data
+
+          console.log('-----------------------',this.options)
+          this.$nextTick(() => {
+            this.options = this.options.concat(data)
+          })
+        }
+      },err => {
+        this.$message.error(err.msg);
+        console.log(err)
+      })
+    },
   },
   mounted () {
     this.queryList()
+    this.qeuryOneList();
   }
 }
 </script>

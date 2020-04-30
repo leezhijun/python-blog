@@ -40,9 +40,17 @@ export function cateUpdate(data) {
   })
 }
 
-export function cateOneAll(data) {
+// export function cateOneAll(data) {
+//   return request({
+//     url: '/cateOneAll',
+//     method: 'post',
+//     data
+//   })
+// }
+
+export function catelevels(data) {
   return request({
-    url: '/cateOneAll',
+    url: '/catelevels',
     method: 'post',
     data
   })
