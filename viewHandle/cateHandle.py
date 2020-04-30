@@ -141,7 +141,8 @@ class cateHandle:
                     limit(limit).offset(offset)
                 sql2 = blog_cate.select().\
                     where(and_(blog_cate.c.cate_name == param['cate_name'],blog_cate.c.cate_id == param['cate_id']))
-            print(sql)
+            # print(sql)
+            # print(sql2)
             result = await SQL.querySql(sql) # sql执行
             # print(result)
             res = await result.fetchall() # fetchall()/fetchone()/fetchmany()/first()

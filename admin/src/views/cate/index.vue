@@ -149,7 +149,7 @@ export default {
   data () {
     return {
       pageIndex: 1,
-      pageSize: 6,
+      pageSize: 10,
       total: 0,
       dialogVisible: false, // 添加弹窗
       updatemodal: false, // 编辑弹窗
@@ -160,7 +160,7 @@ export default {
       },
       form2: {
         cate_name: null, // cate_name
-        cate_parent_id: 0, // 父级id
+        cate_parent_id: [0], // 父级id
       },
       form3: {
         cate_id: null,
@@ -177,6 +177,7 @@ export default {
         { cate_id: 0,cate_name: '顶级栏目' }
       ],
       optionProps: {
+        checkStrictly: true,
         value: 'cate_id',
         label: 'cate_name',
         children: 'children'
@@ -343,9 +344,7 @@ export default {
     qeuryOneList() {
       catelevels().then(res => {
         if (res.data.length>0) {
-          const data = res.data.map(item => {
-            return { value: item.cate_id, label: item.cate_name }
-          })
+          const data = res.data
           this.options = this.options.concat(data)
         }
       },err => {

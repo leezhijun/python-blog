@@ -153,7 +153,7 @@ export default {
   data () {
     return {
       pageIndex: 1,
-      pageSize: 6,
+      pageSize: 10,
       total: 0,
       dialogVisible: false, // 添加弹窗
       updatemodal: false, // 编辑弹窗
