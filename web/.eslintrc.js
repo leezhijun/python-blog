@@ -3,7 +3,7 @@ module.exports = {
   env: {
     node: true
   },
-  extends: [
+  'extends': [
     'plugin:vue/essential',
     '@vue/standard'
   ],
@@ -11,8 +11,8 @@ module.exports = {
     parser: 'babel-eslint'
   },
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     "generator-star-spacing": "off",
     "no-tabs":"off",
     "no-unused-vars":"off",
