@@ -7,7 +7,8 @@
 <style lang="scss">
 #app{
   width: 100%;
-  height: 100%;
+  min-height: 100%;
+  padding-bottom: 80px;
   background-image: url('../src/assets/img/bg.png');
   background-position: top center;
   background-repeat: no-repeat;

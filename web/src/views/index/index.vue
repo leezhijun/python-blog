@@ -1,5 +1,5 @@
 <template>
-  <div class="page-index">
+  <div class="page-index clearfix">
     <header class="top-header">
       <div class="content clearfix">
         <ul class="top-menu">
@@ -17,7 +17,7 @@
         </ul>
       </div>
     </header>
-    <section class="content blog-content">
+    <section class="content blog-content clearfix">
       <header class="menu-header clearfix">
         <div class="aside fl">
           <div class="logo"><img src="@/assets/img/logo.png" /></div>
@@ -137,9 +137,10 @@ export default {
   }
 }
 .blog-content{
-  position: relative;
-  top: 180px;
-  height: 100%;
+  // position: relative;
+  // top: 180px;
+  // height: 100%;
+  margin-top: 180px;
   padding-bottom: 40px;
   border-radius: 6px;
   background-color: #ebe8e1;
@@ -147,6 +148,7 @@ export default {
   box-shadow: 0px 1px 4px 1px #8c8a84;
 }
 .menu-header{
+  position: relative;
   width: 100%;
   height: 48px;
   line-height: 48px;
