@@ -1,5 +1,5 @@
 <template>
-  <div class="editor">
+  <div class="editor" :style="{height:height+'px'}">
     <textarea id="simplemde"></textarea>
   </div>
 </template>
@@ -9,9 +9,21 @@ import 'github-markdown-css'
 import SimpleMDE from 'simplemde'
 export default {
   name: 'MyEditor',
+  props: {
+    value: String,
+    placeholder: {
+      type: String,
+      default: ''
+    },
+    height: {
+      type: Number,
+      default: 500
+    },
+  },
   data () {
     return {
       simplemde: null,
+      content: null
     }
   },
   mounted () {
@@ -65,6 +77,16 @@ export default {
       }, "side-by-side", "fullscreen", "|", "guide"],
     });
     document.querySelector('.editor-preview-side').classList.add('markdown-body');
+
+    // 初始值
+    this.simplemde.value(this.value);
+
+    this.simplemde.codemirror.on('change', () => {
+      if (this.hasChange) {
+        this.hasChange = true
+      }
+      this.content = this.simplemde.value()
+    })
   }
 }
 </script>

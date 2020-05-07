@@ -48,7 +48,7 @@
       </el-form>
       <div class="editor">
         <!-- <textarea id="simplemde"></textarea> -->
-
+        <MyEditor />
       </div>
       <div class="mt15 tc pb30">
         <el-button @click="submitClick(0)" type="default">保存</el-button>
