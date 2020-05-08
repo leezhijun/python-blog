@@ -136,6 +136,7 @@ const constantRoutes = [
     redirect: '/article/index',
     children: [
       {
+        name: '文章管理',
         path: 'index',
         meta: {
           title: '文章管理'
@@ -143,9 +144,18 @@ const constantRoutes = [
         component: () => import('@/views/article')
       },
       {
+        name: '文章发布',
         path: 'add',
         meta: {
           title: '文章发布'
+         },
+        component: () => import('@/views/article/add')
+      },
+      {
+        name: '文章修改',
+        path: 'update/:id',
+        meta: {
+          title: '文章修改'
          },
         component: () => import('@/views/article/add')
       },

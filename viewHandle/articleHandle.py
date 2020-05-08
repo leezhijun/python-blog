@@ -1,13 +1,13 @@
 import sys
 import os
 import json
-from datetime import datetime
+import time
 curPath = os.path.abspath(os.path.dirname(__file__))
 rootPath = os.path.split(curPath)[0]
 sys.path.append(rootPath)
 from sqlcontroller import SQLcontroller
-from untils.dataHandle import retutnObj
-from model import blog_article
+from untils.dataHandle import retutnObj,returnCateArr
+from model import blog_article,blog_cate
 from sqlalchemy.sql import and_, or_, not_
 from untils.formatDate import formatDate
 from aiohttp import web
@@ -25,8 +25,9 @@ class articleHandle:
         try:
             param = json.loads(request._payload._buffer[0])["data"]
             print(param)
-            timenow = datetime.now().timestamp() # 当前时间戳
             SQL = SQLcontroller() # 创建sql操作对象
+            timenow = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+            print(timenow)
             cate_id = param['cate_id'] if param['cate_id'] else None
             # sql 语句
             sql = blog_article.insert(None).\
@@ -40,8 +41,6 @@ class articleHandle:
                     article_is_push=param['article_is_push'],
                     # article_img=param['article_img'],
                     article_content=param['article_content'],
-                    # article_publish_time=formatDate(timenow,'Y-m-d H-M-S'),
-                    # article_update_time=formatDate(timenow,'Y-m-d H-M-S'),
                     article_publish_time=timenow,
                     article_update_time=timenow,
                     article_browse_count=0,
@@ -124,22 +123,26 @@ class articleHandle:
             param = json.loads(request._payload._buffer[0])["data"]
             limit = param['pageSize']
             offset = (param['pageIndex']-1)*param['pageSize']
+            cateArr =  tuple(param['cateArr'].split(',')) if len(param['cateArr']) else ()
             SQL = SQLcontroller() # 创建sql操作对象
             # sql 语句
-            sql = blog_article.select().limit(limit).offset(offset)
-            sql2 = blog_article.select()
-            if param['article_id']:
-                sql = blog_article.select().where(blog_article.c.article_id == param['article_id']).limit(limit).offset(offset)
-                sql2 = blog_article.select().where(blog_article.c.article_id == param['article_id'])
+            sql = blog_article.select().order_by(blog_article.c.article_update_time.desc()).limit(limit).offset(offset)
+            sql2 = blog_article.select().order_by(blog_article.c.article_update_time.desc())
+            # if param['article_id']:
+            #     sql = blog_article.select().where(blog_article.c.article_id == param['article_id']).limit(limit).offset(offset)
+            #     sql2 = blog_article.select().where(blog_article.c.article_id == param['article_id'])
             if param['article_title']:
-                sql = blog_article.select().where(blog_article.c.article_title == param['article_title']).limit(limit).offset(offset)
+                sql = blog_article.select().where(blog_article.c.article_title == param['article_title']).order_by(blog_article.c.article_update_time.desc()).limit(limit).offset(offset)
                 sql2 = blog_article.select().where(blog_article.c.article_title == param['article_title'])
-            if param['article_id'] and param['article_title']: 
+            if len(cateArr):
+                sql = blog_article.select().where(blog_article.c.cate_id.in_(cateArr)).order_by(blog_article.c.article_update_time.desc()).limit(limit).offset(offset)
+                sql2 = blog_article.select().where(blog_article.c.cate_id.in_(cateArr)).order_by(blog_article.c.article_update_time.desc())
+            if len(cateArr) and param['article_title']: 
                 sql = blog_article.select().\
-                    where(and_(blog_article.c.article_title == param['article_title'],blog_article.c.article_id == param['article_id'])).\
+                    where(and_(blog_article.c.article_title == param['article_title'],blog_article.c.cate_id.in_(cateArr))).order_by(blog_article.c.article_update_time.desc()).\
                     limit(limit).offset(offset)
                 sql2 = blog_article.select().\
-                    where(and_(blog_article.c.article_title == param['article_title'],blog_article.c.article_id == param['article_id']))
+                    where(and_(blog_article.c.article_title == param['article_title'],blog_article.c.cate_id.in_(cateArr))).order_by(blog_article.c.article_update_time.desc())
             print(sql)
             result = await SQL.querySql(sql) # sql执行
             # print(result)
@@ -167,12 +170,68 @@ class articleHandle:
                 'article_order',
                 'article_type',
             )
-            # print(res)
+            print(res)
             data['data']['data'] = [retutnObj(tuple1,i) for i in res] if res else []
             data['data']['total'] = result2.rowcount
             # print(data['data'])
         except Exception as e:
             data['code'] = -100
             data['msg'] = str(e)
+        finally:
+            return web.json_response(data)
+    # 查询文章id
+    async def articleSelectId(self,request,payload):
+        data = {
+            'code': 0,
+            'data': {},
+            'msg' :''
+        }
+        try:
+            param = json.loads(request._payload._buffer[0])["data"]
+            SQL = SQLcontroller() # 创建sql操作对象
+            # sql 语句
+            sql = blog_article.select().where(blog_article.c.article_id == param['article_id'])
+            sql2 = blog_cate.select()
+            print(sql)
+            result = await SQL.querySql(sql) # sql执行
+            # print(result)
+            res = await result.fetchone() # fetchall()/fetchone()/fetchmany()/first()
+
+            result2 = await SQL.querySql(sql2) # sql执行
+            res2 = await result2.fetchall()
+            cateArr = [{'cate_id':i[0],'cate_name':i[1],'cate_parent_id':i[8]} for i in res2] if res else []
+            # print(res)
+            tuple1 = (
+                'article_id',
+                'user_id',
+                'cate_id',
+                'article_title',
+                'article_keywords',
+                'article_description',
+                'article_is_hot',
+                'article_is_push',
+                'article_img',
+                'article_content',
+                'article_publish_time',
+                'article_update_time',
+                'article_browse_count',
+                'article_like_count',
+                'article_status',
+                'article_comment_status',
+                'article_password',
+                'article_order',
+                'article_type',
+            )
+            print(res)
+            data['data'] = retutnObj(tuple1,res)
+            if data['data']['cate_id']:
+                data['data']['cateArr'] = returnCateArr(data['data']['cate_id'],cateArr)
+                print(data['data']['cate_id'])
+                print(cateArr)
+            # print(data['data'])
+        except Exception as e:
+            data['code'] = -100
+            data['msg'] = str(e)
+            data['data'] = None
         finally:
             return web.json_response(data)

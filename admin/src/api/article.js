@@ -31,3 +31,11 @@ export function articleUpdate(data) {
     data
   })
 }
+
+export function articleSelectId(data) {
+  return request({
+    url: '/articleSelectId',
+    method: 'post',
+    data
+  })
+}

@@ -48,9 +48,9 @@
       </el-form>
       <div class="editor">
         <!-- <textarea id="simplemde"></textarea> -->
-        <MyEditor />
+        <MyEditor v-model="form.article_content" placeholder="请输入文章类容" />
       </div>
-      <div class="mt15 tc pb30">
+      <div class="mt30 tc pb30">
         <el-button @click="submitClick(0)" type="default">保存</el-button>
         <el-button @click="submitClick(1)" type="primary">发布</el-button>
       </div>
@@ -60,7 +60,7 @@
 <script>
 import MyEditor from '@/components/MyEditor'
 import { catelevels } from '@/api/cate'
-import { addArticle } from '@/api/article'
+import { addArticle,articleSelectId } from '@/api/article'
 export default {
   name: 'AddPage',
   components: {
@@ -93,13 +93,16 @@ export default {
     handleClick() {},
     submitClick(type) {
       // console.log(this.simplemde.value())
+      // console.log(this.cateArr); return false;
+      if (this.cateArr.length>0) {
+        this.form.cate_id = this.cateArr[this.cateArr.length-1]
+      }
       const param = {
         data: this.form
       }
       param.data.article_is_hot = param.data.article_is_hot ? 1 : 0
       param.data.article_is_push = param.data.article_is_push ? 1 : 0
       param.data.article_status = type
-      param.data.article_content = this.simplemde.value()
       this.loading = true
       // console.log(param); return false;
       addArticle(param).then(res => {
@@ -110,6 +113,7 @@ export default {
             type: 'success',
           }
         )
+        this.$router.push({ name: 'articlePage' })
       },err => {
         this.loading = false
         this.$message.error(err.msg);
@@ -126,6 +130,30 @@ export default {
         console.log(err)
       })
     },
+    queryId() {
+      const param = {
+        data: {
+          article_id: this.form.article_id
+        }
+      }
+      articleSelectId(param).then(res => {
+        console.log(res)
+        this.form = Object.assign(this.form,res.data,
+        { article_is_hot: res.data.article_is_hot===1 ,article_is_push: res.data.article_is_push===1 }
+        )
+      },err => {
+        this.$message.error(err.msg);
+        console.log(err)
+      })
+    }
+  },
+  beforeMount () {
+    console.log(this.$route)
+    if (this.$route.query.article_id) {
+      console.log(this.$route.query.article_id)
+      this.form.article_id = this.$route.query.article_id
+      this.queryId()
+    }
   },
   mounted () {
     this.qeuryOneList();

@@ -1,5 +1,5 @@
 <template>
-  <div class="editor" :style="{height:height+'px'}">
+  <div class="editor" :style="{height:(height+70)+'px'}">
     <textarea id="simplemde"></textarea>
   </div>
 </template>
@@ -23,14 +23,47 @@ export default {
   data () {
     return {
       simplemde: null,
-      content: null
+      content: null,
+      timer: null,
+    }
+  },
+  watch: {
+    content: function(newval,oldval) {
+      this.$emit('input', newval)
     }
   },
   mounted () {
     const _this = this;
+    SimpleMDE.prototype.createSideBySide = function() {
+      var cm = this.codemirror;
+      var wrapper = cm.getWrapperElement();
+      var preview = wrapper.nextSibling;
+
+      if(!preview || !/editor-preview-side/.test(preview.className)) {
+        preview = document.createElement("div");
+        preview.className = "editor-preview-side markdown-body";
+        wrapper.parentNode.insertBefore(preview, wrapper.nextSibling);
+      }
+
+      // Syncs scroll  editor -> preview
+      var cScroll = false;
+      var pScroll = false;
+      cm.on("scroll", function(v) {
+        if(cScroll) {
+          cScroll = false;
+          return;
+        }
+        pScroll = true;
+        var height = v.getScrollInfo().height - v.getScrollInfo().clientHeight;
+        var ratio = parseFloat(v.getScrollInfo().top) / height;
+        var move = (preview.scrollHeight - preview.clientHeight) * ratio;
+        preview.scrollTop = move;
+      });
+    }
     this.simplemde = new SimpleMDE({
       element: document.getElementById('simplemde'),
       spellChecker: false,
+      placeholder: this.placeholder,
       toolbar: ["bold", "italic", "heading", "|", "quote", "code", "unordered-list", "ordered-list", "table", "horizontal-rule", "clean-block", "|", "link", "image",
       {
         name: "preview",
@@ -76,16 +109,19 @@ export default {
 			  title: "Toggle Preview",
       }, "side-by-side", "fullscreen", "|", "guide"],
     });
-    document.querySelector('.editor-preview-side').classList.add('markdown-body');
+    // document.querySelector('.editor-preview-side').classList.add('markdown-body');
 
+    // console.log(document.querySelector('.CodeMirror-scroll'))
+    document.querySelector('.CodeMirror-scroll').style.minHeight = this.height + 'px';
     // 初始值
     this.simplemde.value(this.value);
 
     this.simplemde.codemirror.on('change', () => {
-      if (this.hasChange) {
-        this.hasChange = true
-      }
-      this.content = this.simplemde.value()
+      clearTimeout(this.timer)
+      setTimeout(()=>{
+        console.log(this.simplemde.value());
+        this.content = this.simplemde.value()
+      },500)
     })
   }
 }

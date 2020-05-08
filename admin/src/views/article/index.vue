@@ -4,17 +4,17 @@
     <div class="mt15">
       <el-form class="mt30" ref="form"  label-position="left" :model="form" status-icon label-width="60px">
         <el-row :gutter="10">
-          <el-col :span="5">
+          <!-- <el-col :span="5">
             <el-form-item label="文章id">
               <el-input-number v-model="form.article_id" :max="99" :controls="false" :step='1' step-strictly></el-input-number>
             </el-form-item>
-          </el-col>
+          </el-col> -->
           <el-col :span="5">
             <el-form-item label="文章名" prop="article_title">
               <el-input v-model="form.article_title" placeholder="文章名"></el-input>
             </el-form-item>
           </el-col>
-          <!-- <el-col :span="5">
+          <el-col :span="5">
               <el-cascader
                 placeholder="请选择类目"
                 v-model="cateArr"
@@ -22,7 +22,7 @@
                 :props="optionProps"
                 collapse-tags
                 clearable></el-cascader>
-          </el-col> -->
+          </el-col>
           <el-col :span="2"><el-button type="primary" @click="onSubmit('form')">搜索</el-button></el-col>
         </el-row>
       </el-form>
@@ -239,8 +239,7 @@ export default {
     },
     handleClick(row) {
       console.log(row)
-      this.form3 = Object.assign(this.form3,row)
-      this.updatemodal = true
+      this.$router.push({ name: '文章修改' , query: { article_id: row.article_id } })
     },
     delClick(row) {
       console.log(row)
@@ -266,17 +265,16 @@ export default {
           pageSize: this.pageSize
         }
       }
-      if (this.cateArr.length>0) {
-        let a = []
-        for (let index = 0; index < this.cateArr.length; index++) {
-          const element = this.cateArr[index];
-          a = [...a, ...element]
-        }
-        console.log(a)
-        const cateTulp = new Set(a)
-        // console.log(cateTulp)
-        param.data.cateArr = [...cateTulp].join(',')
+      const a = []
+      for (let index = 0; index < this.cateArr.length; index++) {
+        const element = this.cateArr[index];
+        a.push(element[element.length-1])
       }
+      console.log(this.cateArr)
+      console.log(a)
+      const cateTulp = new Set(a)
+      // console.log(cateTulp)
+      param.data.cateArr = [...cateTulp].join(',')
       // console.log('queryList--',param); return false;
       getArticleList(param).then(res => {
         this.tableData = res.data.data
