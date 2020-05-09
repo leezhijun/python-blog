@@ -1,9 +1,10 @@
 <template>
   <el-main>
     <transition name="fade-transform" mode="out-in">
-      <keep-alive>
+      <!-- <keep-alive>
         <router-view :key="key" />
-      </keep-alive>
+      </keep-alive> -->
+      <router-view :key="key" />
     </transition>
   </el-main>
 </template>

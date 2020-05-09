@@ -112,37 +112,6 @@
         </el-pagination>
       </div>
     </div>
-    <!-- 编辑 -->
-    <el-dialog
-      title="文章编辑"
-      :visible.sync="updatemodal"
-      width="60%">
-      <div>
-        <el-form ref="form3" :model="form3" :rules="rules" label-width="80px">
-          <el-row :gutter="10">
-            <el-form-item label="标题" prop="article_title">
-              <el-input v-model="form3.article_title" :maxlength="25" show-word-limit placeholder="请输入文章名"></el-input>
-            </el-form-item>
-            <el-form-item label="文章别名" prop="article_alias">
-              <el-input v-model="form3.article_alias" :maxlength="25" show-word-limit placeholder="请输入文章别名"></el-input>
-            </el-form-item>
-            <el-form-item label="文章logo">
-              <el-input v-model="form3.article_img" placeholder="请输入标题"></el-input>
-            </el-form-item>
-            <el-form-item label="排序">
-              <el-input-number v-model="form3.article_order" :max="99" :controls="false" :step='1' step-strictly></el-input-number>
-            </el-form-item>
-            <el-form-item label="描述">
-              <el-input v-model="form3.article_description" type="textarea" :row="2" :maxlength="500" show-word-limit  placeholder="请输入描述"></el-input>
-            </el-form-item>
-          </el-row>
-        </el-form>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button size="small"  @click="updatemodal = false">取 消</el-button>
-        <el-button size="small" :disabled="loading"  type="primary" @click="updateHandle('form3')">确 定</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 <script>

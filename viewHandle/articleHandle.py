@@ -92,15 +92,29 @@ class articleHandle:
         try:
             param = json.loads(request._payload._buffer[0])["data"]
             SQL = SQLcontroller() # 创建sql操作对象
+            timenow = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+            print(timenow)
+            cate_id = param['cate_id'] if param['cate_id'] else None
             # sql 语句
             sql = blog_article.update(None).where(blog_article.c.article_id == param['article_id'])\
                 .values(
+                    # user_id=payload['user_id'],
+                    cate_id=cate_id,
                     article_title=param['article_title'],
                     article_keywords=param['article_keywords'],
                     article_description=param['article_description'],
-                    article_img=param['article_img'],
-                    article_show=param['article_show'],
-                    article_order=param['article_order']
+                    article_is_hot=param['article_is_hot'],
+                    article_is_push=param['article_is_push'],
+                    # article_img=param['article_img'],
+                    article_content=param['article_content'],
+                    # article_publish_time=timenow,
+                    article_update_time=timenow,
+                    # article_browse_count=0,
+                    # article_like_count=0,
+                    # article_status=param['article_status'],
+                    article_comment_status=0,
+                    article_order=param['article_order'],
+                    article_type=param['article_type'],
                 )
             result = await SQL.querySql(sql) # sql执行
             # print(result)
@@ -225,8 +239,10 @@ class articleHandle:
             print(res)
             data['data'] = retutnObj(tuple1,res)
             if data['data']['cate_id']:
-                data['data']['cateArr'] = returnCateArr(data['data']['cate_id'],cateArr)
-                print(data['data']['cate_id'])
+                cateArr =  returnCateArr(data['data']['cate_id'],cateArr)
+                cateArr.sort()
+                data['data']['cateArr'] = cateArr
+                # print(data['data']['cate_id'])
                 print(cateArr)
             # print(data['data'])
         except Exception as e:

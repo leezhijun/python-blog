@@ -153,7 +153,7 @@ const constantRoutes = [
       },
       {
         name: '文章修改',
-        path: 'update/:id',
+        path: 'update',
         meta: {
           title: '文章修改'
          },

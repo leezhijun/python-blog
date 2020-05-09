@@ -141,6 +141,9 @@ export default {
         this.form = Object.assign(this.form,res.data,
         { article_is_hot: res.data.article_is_hot===1 ,article_is_push: res.data.article_is_push===1 }
         )
+        if (res.data.cateArr) {
+          this.cateArr = res.data.cateArr
+        }
       },err => {
         this.$message.error(err.msg);
         console.log(err)
