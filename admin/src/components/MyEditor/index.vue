@@ -30,6 +30,9 @@ export default {
   watch: {
     content: function(newval,oldval) {
       this.$emit('input', newval)
+    },
+    value: function(newval,oldval) {
+      this.simplemde.value(newval);
     }
   },
   mounted () {

@@ -52,7 +52,8 @@
       </div>
       <div class="mt30 tc pb30">
         <el-button @click="submitClick(0)" type="default">保存</el-button>
-        <el-button @click="submitClick(1)" type="primary">发布</el-button>
+        <el-button @click="submitClick(1)" v-if="!article_id" type="primary">发布</el-button>
+        <el-button @click="submitClick(2)" v-else type="primary">修改</el-button>
       </div>
     </div>
   </div>
@@ -60,7 +61,7 @@
 <script>
 import MyEditor from '@/components/MyEditor'
 import { catelevels } from '@/api/cate'
-import { addArticle,articleSelectId } from '@/api/article'
+import { addArticle,articleSelectId,articleUpdate } from '@/api/article'
 export default {
   name: 'AddPage',
   components: {
@@ -68,6 +69,7 @@ export default {
   },
   data () {
     return {
+      article_id: null,
       form: {
         cate_id: null,
         article_title: '',
@@ -94,8 +96,10 @@ export default {
     submitClick(type) {
       // console.log(this.simplemde.value())
       // console.log(this.cateArr); return false;
-      if (this.cateArr.length>0) {
+      if (this.cateArr.length>0&&this.form.article_type===1) {
         this.form.cate_id = this.cateArr[this.cateArr.length-1]
+      } else {
+        this.form.cate_id = null
       }
       const param = {
         data: this.form
@@ -105,20 +109,38 @@ export default {
       param.data.article_status = type
       this.loading = true
       // console.log(param); return false;
-      addArticle(param).then(res => {
-        this.loading = false
-        this.$message(
-          {
-            message: type ? '发布成功!': '保存成功!',
-            type: 'success',
-          }
-        )
-        this.$router.push({ name: 'articlePage' })
-      },err => {
-        this.loading = false
-        this.$message.error(err.msg);
-        console.log(err)
-      })
+      if (this.article_id) {
+        param.data.article_id = this.article_id
+        articleUpdate(param).then(res => {
+          this.loading = false
+          this.$message(
+            {
+              message: type ? '修改成功!': '保存成功!',
+              type: 'success',
+            }
+          )
+          this.$router.push({ name: 'articlePage' })
+        },err => {
+          this.loading = false
+          this.$message.error(err.msg);
+          console.log(err)
+        })
+      } else {
+        addArticle(param).then(res => {
+          this.loading = false
+          this.$message(
+            {
+              message: type ? '发布成功!': '保存成功!',
+              type: 'success',
+            }
+          )
+          this.$router.push({ name: 'articlePage' })
+        },err => {
+          this.loading = false
+          this.$message.error(err.msg);
+          console.log(err)
+        })
+      }
     },
     qeuryOneList() {
       catelevels().then(res => {
@@ -133,7 +155,7 @@ export default {
     queryId() {
       const param = {
         data: {
-          article_id: this.form.article_id
+          article_id: this.article_id
         }
       }
       articleSelectId(param).then(res => {
@@ -154,7 +176,7 @@ export default {
     console.log(this.$route)
     if (this.$route.query.article_id) {
       console.log(this.$route.query.article_id)
-      this.form.article_id = this.$route.query.article_id
+      this.article_id = this.$route.query.article_id
       this.queryId()
     }
   },
