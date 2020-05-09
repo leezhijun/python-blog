@@ -33,6 +33,8 @@ export default {
     },
     value: function(newval,oldval) {
       this.simplemde.value(newval);
+      // console.log(this.simplemde.codemirror)
+      this.simplemde.codemirror.execCommand('goDocEnd') // 光标移动到末尾
     }
   },
   mounted () {
@@ -121,7 +123,7 @@ export default {
 
     this.simplemde.codemirror.on('change', () => {
       clearTimeout(this.timer)
-      setTimeout(()=>{
+      this.timer = setTimeout(()=>{
         console.log(this.simplemde.value());
         this.content = this.simplemde.value()
       },500)
