@@ -3,7 +3,7 @@
     <header class="top-header">
       <div class="content clearfix">
         <ul class="top-menu">
-          <li>kingleoric</li>
+          <li class="top-logo"><img src="@/assets/img/logo.png" /></li>
           <li>关于</li>
           <li>归档</li>
           <li>留言</li>
@@ -20,7 +20,7 @@
     <section class="content blog-content clearfix">
       <header class="menu-header clearfix">
         <div class="aside fl">
-          <div class="logo"><img src="@/assets/img/logo.png" /></div>
+          <div class="logo"><img src="@/assets/img/logo.jpg" /></div>
           <ul class="count">
             <li>12 <br> 文章</li>
             <li>12 <br> 日志</li>
@@ -77,7 +77,9 @@
                 <div class="des">本文主要讲解了下我平时在工作开发中遇到的关于 Hooks 的一切缺点和问题，并尝试配合 Mobx 解决这些问题的经历。我觉得两者的配合可以极大的降低开发过程中有可能出现的问题以及极大的提高开发体验，而且学习成本也是非常的低。</div>
               </div>
               <div class="post-others">
-
+                <span class="tiem">2020-10-01 12:12:12</span>
+                <span class="author">kingleric</span>
+                <span class="tag"></span>
               </div>
             </li>
           </ul>
@@ -126,6 +128,17 @@ export default {
     float: left;
     padding: 0 15px;
     text-shadow: 0 1px 1px #666;
+  }
+  .top-logo{
+    width: 200px;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    img{
+      display: block;
+      width: 200px;
+    }
   }
 }
 .top-right{
