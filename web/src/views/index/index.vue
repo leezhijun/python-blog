@@ -72,7 +72,7 @@
           </div>
           <ul class="post-list mt10">
             <li class="post-item">
-              <div class="post-content">
+              <div class="post-content clearfix">
                 <h3 class="title">Hooks & Mobx 只需额外知道两个 Hook，便能体验到如此简单的开发方式</h3>
                 <div class="des">本文主要讲解了下我平时在工作开发中遇到的关于 Hooks 的一切缺点和问题，并尝试配合 Mobx 解决这些问题的经历。我觉得两者的配合可以极大的降低开发过程中有可能出现的问题以及极大的提高开发体验，而且学习成本也是非常的低。</div>
               </div>
@@ -118,12 +118,9 @@ export default {
   background-color: rgba(190, 179, 228, 0.3);
   box-shadow: 0 -1px 4px 1px #d8d3c0;
 }
-.content{
-  width: 1200px;
-  margin: 0 auto;
-}
 .top-menu{
   float: left;
+  color: #000;
   li{
     float: left;
     padding: 0 15px;
@@ -143,6 +140,7 @@ export default {
 }
 .top-right{
   float: right;
+  color: #000;
   li{
     float: left;
     padding: 0 15px;
@@ -150,9 +148,6 @@ export default {
   }
 }
 .blog-content{
-  // position: relative;
-  // top: 180px;
-  // height: 100%;
   margin-top: 180px;
   padding-bottom: 40px;
   border-radius: 6px;
@@ -182,6 +177,43 @@ export default {
     border: 1px solid #fff;
     box-shadow: 0px 1px 2px 1px #e0dfdb;
     background-color: #f7f6f1;
+  }
+  .post-content{
+    .img{
+      float: left;
+      // position: relative;
+      // top: -80px;
+      transform:translateY(-80px);
+      width: 200px;
+      height: 180px;
+      margin-right: 15px;
+      padding: 5px;
+      border-radius: 2px;
+      background-color: #fff;
+      img{
+        width: 100%;
+        border-radius: 2px;
+      }
+    }
+  }
+  .title{
+    padding: 10px 0;
+    font-size: 18px;
+    color: #817E74;
+    border-bottom: 1px solid #EEEEE6;
+  }
+  .des{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #B4B0A4;
+    line-height: 1.4;
+  }
+  .post-others{
+    border-top: 1px solid #EEEEE6;
+    padding-top: 10px;
+    font-size: 12px;
+    color: #9F9D92;
   }
 }
 .nav{
@@ -263,7 +295,7 @@ export default {
     span{
       display: inline-block;
       font-size: 12px;
-      padding: 6px 10px;
+      padding: 2px 4px;
       margin-right: 10px;
       margin-top: 10px;
       border-radius: 4px;
@@ -281,6 +313,7 @@ export default {
   overflow: hidden;
   img{
     width: 100%;
+    border-radius: 4px;
   }
 }
 

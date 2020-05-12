@@ -53,6 +53,11 @@ body{
 .c-warning{color:$c-warning!important;}
 .c-primary{color:$c-primary!important;}
 
+.content{
+    width: 1200px;
+    margin: 0 auto;
+}
+
 .tc {text-align: center;}
 .tr {text-align: right;}
 .tl {text-align: left;}

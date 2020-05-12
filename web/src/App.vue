@@ -9,6 +9,7 @@
   width: 100%;
   min-height: 100%;
   padding-bottom: 80px;
+  color: #857E6D;
   background-image: url('../src/assets/img/bg.png');
   background-position: top center;
   background-repeat: no-repeat;
