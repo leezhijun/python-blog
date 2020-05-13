@@ -43,7 +43,7 @@ export default {
     text-shadow: 0 1px 1px #666;
   }
   .top-logo{
-    width: 200px;
+    // width: 200px;
     height: 50px;
     display: flex;
     flex-direction: column;

@@ -10,20 +10,32 @@
     </div>
     <menu class="section fl">
       <ul class="nav">
-        <li>代码</li>
-        <li>分享</li>
-        <li>日志</li>
-        <li>随笔</li>
-        <li>音乐</li>
-        <li>设计</li>
-        <li>杂谈</li>
+        <li v-for="item in dataList" :key="item.id" @mouseenter="item.show=true" @mouseleave="item.show=false">
+          {{item.name}}
+          <ul class="children" v-if="item.show">
+            <li v-for="i in item.children" :key="i.id">{{i.name}}</li>
+          </ul>
+        </li>
       </ul>
     </menu>
   </header>
 </template>
 <script>
 export default {
-  name: 'Header'
+  name: 'Header',
+  data () {
+    return {
+      dataList: [
+        { name: '代码',id: 1, children: [{ name: '代码1',id: 11, }, { name: '代码2',id: 12, }], show: false },
+        { name: '分享',id: 2, children: [{ name: '代码1',id: 21, }, { name: '代码2',id: 22, }], show: false },
+        { name: '日志',id: 3, children: [{ name: '代码1',id: 31, }, { name: '代码2',id: 32, }], show: false },
+        { name: '随笔',id: 4 , show: false },
+        { name: '音乐',id: 5 , show: false },
+        { name: '设计',id: 6 , show: false },
+        { name: '杂谈',id: 7 , show: false },
+      ]
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -70,8 +82,29 @@ export default {
 }
 .nav{
   li{
+    position: relative;
     padding: 0 20px;
     float: left;
+    .children{
+      width: 120px;
+      padding: 0 10px;
+      position: absolute;
+      left: 0;
+      z-index: 99;
+      background-color: #f9f8f3;
+      box-shadow: 0px 1px 2px 1px #e0dfdb;
+    }
+    li{
+      width: 100%;
+      font-size: 14px;
+      line-height: 1;
+      padding: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed #d9d2c0;
+      &:last-of-type{
+        border: none;
+      }
+    }
   }
 }
 </style>
