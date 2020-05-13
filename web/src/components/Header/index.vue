@@ -1,24 +1,24 @@
 <template>
-  <header class="top-header">
-    <div class="content clearfix">
-      <ul class="top-menu">
-        <li class="top-logo"><img src="@/assets/img/logo.png" /></li>
-        <li>关于</li>
-        <li>归档</li>
-        <li>留言</li>
-        <li>邻居</li>
-        <li>图集</li>
-      </ul>
-      <ul class="top-right">
-        <li>登陆</li>
-        <li>皮肤</li>
-        <li>
-          <input
-            type="text"
-            placeholder="查找"
-          ></li>
+  <header class="menu-header clearfix">
+    <div class="aside fl">
+      <div class="logo"><img src="@/assets/img/logo.jpg" /></div>
+      <ul class="count">
+        <li>12 <br> 文章</li>
+        <li>12 <br> 日志</li>
+        <li>12 <br> 随笔</li>
       </ul>
     </div>
+    <menu class="section fl">
+      <ul class="nav">
+        <li>代码</li>
+        <li>分享</li>
+        <li>日志</li>
+        <li>随笔</li>
+        <li>音乐</li>
+        <li>设计</li>
+        <li>杂谈</li>
+      </ul>
+    </menu>
   </header>
 </template>
 <script>
@@ -27,40 +27,51 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.top-header{
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
-  background-color: rgba(190, 179, 228, 0.3);
-  box-shadow: 0 -1px 4px 1px #d8d3c0;
-}
-.top-menu{
-  float: left;
-  color: #000;
+.count{
+  position: relative;
+  left: 124px;
   li{
     float: left;
-    padding: 0 15px;
-    text-shadow: 0 1px 1px #666;
-  }
-  .top-logo{
-    width: 200px;
-    height: 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    img{
-      display: block;
-      width: 200px;
+    margin: 2px 0;
+    padding: 0 10px;
+    text-align: center;
+    line-height: 20px;
+    border-right: 1px solid #eee;
+    &:last-of-type{
+      border: none;
     }
   }
 }
-.top-right{
-  float: right;
-  color: #000;
+.logo{
+  position: absolute;
+  top: -50px;
+  width: 84px;
+  height: 84px;
+  margin: 0 20px;
+  padding: 4px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0px 0px 2px 1px #d0d0d0;
+  img{
+    border-radius: 4px;
+    width: 100%;
+    height: 100%;
+  }
+}
+.menu-header{
+  position: relative;
+  width: 100%;
+  height: 48px;
+  line-height: 48px;
+  border-radius: 6px 6px 0 0;
+  background-color: #f9f8f3;
+  border: 1px solid #fff;
+  box-shadow: 0px 1px 2px 1px #e0dfdb;
+}
+.nav{
   li{
+    padding: 0 20px;
     float: left;
-    padding: 0 15px;
-    text-shadow: 0 1px 1px #666;
   }
 }
 </style>
