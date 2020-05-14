@@ -78,7 +78,7 @@ export default {
     span{
       display: inline-block;
       font-size: 12px;
-      padding: 2px 4px;
+      padding: 0 4px;
       margin-right: 10px;
       margin-top: 10px;
       border-radius: 4px;
