@@ -1,23 +1,22 @@
 <template>
   <header class="top-header">
     <div class="content clearfix">
+      <div class="logo mr10 fl"><i class="iconfont icon-kingleoric f24"></i></div>
       <ul class="top-menu">
-        <li class="top-logo"><img src="@/assets/img/logo.png" /></li>
-        <li>关于</li>
-        <li>归档</li>
-        <li>留言</li>
-        <li>邻居</li>
-        <li>图集</li>
+        <li class="easing"><i class="iconfont icon-about"></i>关于</li>
+        <li class="easing"><i class="iconfont icon-cc-archive"></i>归档</li>
+        <li class="easing"><i class="iconfont icon-i-message"></i>留言</li>
+        <li class="easing"><i class="iconfont icon-Link"></i>邻居</li>
+        <li class="easing"><i class="iconfont icon-img"></i>图集</li>
       </ul>
-      <ul class="top-right">
-        <li>登陆</li>
-        <li>皮肤</li>
-        <li>
-          <input
-            type="text"
-            placeholder="查找"
-          ></li>
-      </ul>
+      <div class="top-right">
+        <ul class="fl">
+          <li>登陆</li>
+          <li>皮肤</li>
+        </ul>
+        <div  class="fl ml20">
+          <input type="text" placeholder="查找..." /></div>
+        </div>
     </div>
   </header>
 </template>
@@ -30,28 +29,23 @@ export default {
 .top-header{
   width: 100%;
   height: 50px;
+  color: #000;
   line-height: 50px;
   background-color: rgba(190, 179, 228, 0.3);
   box-shadow: 0 -1px 4px 1px #d8d3c0;
 }
 .top-menu{
   float: left;
-  color: #000;
   li{
     float: left;
     padding: 0 15px;
     text-shadow: 0 1px 1px #666;
-  }
-  .top-logo{
-    // width: 200px;
-    height: 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    img{
-      display: block;
-      width: 200px;
+    &:hover{
+      background-color: rgba(255, 255, 255, 0.1);
     }
+  }
+  i{
+    margin-right: 2px;
   }
 }
 .top-right{
@@ -61,6 +55,13 @@ export default {
     float: left;
     padding: 0 15px;
     text-shadow: 0 1px 1px #666;
+  }
+  input{
+    font-size: 12px;
+    height: 26px;
+    padding: 0 10px;
+    border-radius: 4px;
+    background-color: rgba($color:#fff, $alpha: 0.7);
   }
 }
 </style>
