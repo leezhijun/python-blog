@@ -2,19 +2,21 @@
   <header class="menu-header clearfix">
     <div class="aside fl">
       <div class="logo"><img src="@/assets/img/logo.jpg" /></div>
-      <ul class="count">
+      <ul class="count f12">
         <li>12 <br> 文章</li>
-        <li>12 <br> 日志</li>
-        <li>12 <br> 随笔</li>
+        <li>12 <br> 评论</li>
+        <li>12 <br> 邻居</li>
       </ul>
     </div>
     <menu class="section fl">
       <ul class="nav">
         <li v-for="item in dataList" :key="item.id" @mouseenter="item.show=true" @mouseleave="item.show=false">
-          {{item.name}}
-          <ul class="children" v-if="item.show">
-            <li v-for="i in item.children" :key="i.id">{{i.name}}</li>
-          </ul>
+          {{item.name}}<i class="iconfont f20 icon-triangle easing" v-if="item.children&&item.children.length>0" :class="{on: item.show}"></i>
+          <transition name="fade">
+            <ul class="children" v-if="item.show">
+              <li v-for="i in item.children" :key="i.id">{{i.name}}</li>
+            </ul>
+          </transition>
         </li>
       </ul>
     </menu>
@@ -85,6 +87,13 @@ export default {
     position: relative;
     padding: 0 20px;
     float: left;
+    i{
+      display: inline-block;
+      position: absolute;
+    }
+    i.on{
+      transform: rotate(180deg);
+    }
     .children{
       width: 120px;
       padding: 0 10px;
@@ -100,11 +109,20 @@ export default {
       line-height: 1;
       padding: 10px;
       padding-bottom: 10px;
-      border-bottom: 1px dashed #d9d2c0;
+      border-bottom: 1px dashed #dfdedc;
       &:last-of-type{
         border: none;
       }
     }
   }
+}
+.fade-enter-active  {
+  transition: opacity .5s;
+}
+.fade-leave-active {
+  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>

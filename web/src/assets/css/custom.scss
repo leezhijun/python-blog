@@ -1,7 +1,7 @@
 // 个人习惯css
 @charset "UTF-8";
 @import './commom.scss';
-@import url('//at.alicdn.com/t/font_742295_4ctbp6qgxbh.css');
+@import url('//at.alicdn.com/t/font_742295_7x3ec3yzl8q.css');
 html{
     height: 100%;
 }
@@ -19,7 +19,7 @@ body{
 }
 
 .easing{
-    transition: all 0.5s;
+    transition: all .3s ease;
 }
 
 .h-100{
@@ -31,7 +31,18 @@ body{
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-
+.ell2{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+.ell3{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
 .cursor {
     cursor: pointer
 }

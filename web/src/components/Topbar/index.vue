@@ -27,6 +27,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .top-header{
+  // position: sticky;
+  // top: 0;
+  z-index: 99;
   width: 100%;
   height: 50px;
   color: #000;

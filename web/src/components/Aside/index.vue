@@ -1,6 +1,15 @@
 <template>
   <aside class="aside fl">
-    <aside class="aside-box">这是一个博客，纯属无聊不知道做什么，就做了这样一个博客玩，用于学习总结和知识归纳，不积跬步无以至千里，长路漫漫其修远兮，吾将上下而求索!</aside>
+    <aside class="aside-box">
+      <div class="f12">这是一个博客，很早以前就想自己写个博客的，用于学习总结和知识归纳，不积跬步无以至千里，长路漫漫其修远兮，吾将上下而求索!</div>
+      <ul class="icon-list">
+        <li><i class="iconfont icon-weibo"></i></li>
+        <li><i class="iconfont icon-qq"></i></li>
+        <li><i class="iconfont icon-weixin"></i></li>
+        <li><i class="iconfont icon-github"></i></li>
+        <li><i class="iconfont icon-bilibili-line"></i></li>
+      </ul>
+    </aside>
     <aside class="aside-box">
       <img src="@/assets/img/ad.jpg" />
     </aside>
@@ -13,7 +22,7 @@
         >{{item}}</span>
       </div>
     </aside>
-    <aside class="aside-box">
+    <aside class="aside-box f12">
       <h3>博客统计</h3>
       <ul>
         <li>日志总数：123</li>
@@ -65,7 +74,8 @@ export default {
       border-radius: 8px;
       background-color: #c5c5c5;
       border: 1px solid #e2e2e2;
-      box-shadow: 0 0 2px 1px #b3b3b3 inset;
+      // box-shadow: 0 0 2px 1px #b3b3b3 inset;
+      box-shadow: 0 0 1px #f7f6f1 inset, 1px 1px 1px #817e74 inset;
     }
     &::after{
       right: 4px;
@@ -88,6 +98,20 @@ export default {
   li{
     padding: 10px 0;
     border-bottom: 1px solid #eee;
+  }
+  .icon-list{
+    margin-top: 10px;
+    padding-top: 5px;
+    border-top: 1px solid #eeedea;
+    display: flex;
+    justify-content: space-around;
+    li{
+      padding: 0;
+      border: none;
+    }
+    i{
+      text-shadow: 1px 1px 1px #d9d2c0, -1px -1px 1px #fff;
+    }
   }
 }
 </style>
