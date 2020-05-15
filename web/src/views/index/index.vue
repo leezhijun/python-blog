@@ -16,6 +16,11 @@
           <ul class="post-list mt10">
             <PostItem />
           </ul>
+          <div class="pagination">
+            <div class="pre fl">上一页</div>
+            <div class="next fr">下一页</div>
+          </div>
+          <!-- <Pagination /> -->
         </section>
       </section>
     </section>
@@ -50,6 +55,19 @@ export default {
   img{
     width: 100%;
     border-radius: 4px;
+  }
+}
+.pagination{
+  margin-top: 50px;
+  .pre,.next{
+    width: 80px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    border-radius: 4px;
+    background-color: #f7f6f1;
+    border: 1px solid #fff;
+    box-shadow: 0px 1px 6px 1px #d0d0d0;
   }
 }
 </style>
