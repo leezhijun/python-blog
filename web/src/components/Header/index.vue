@@ -2,6 +2,7 @@
   <header class="menu-header clearfix">
     <div class="aside fl">
       <div class="logo"><img src="@/assets/img/logo.jpg" /></div>
+      <div class="text ell">{{text}}</div>
       <ul class="count f12">
         <li>12 <br> 文章</li>
         <li>12 <br> 评论</li>
@@ -35,7 +36,8 @@ export default {
         { name: '音乐',id: 5 , show: false },
         { name: '设计',id: 6 , show: false },
         { name: '杂谈',id: 7 , show: false },
-      ]
+      ],
+      text: '长路漫漫其修远兮，吾将上下而求索...'
     }
   }
 }
@@ -71,6 +73,19 @@ export default {
     width: 100%;
     height: 100%;
   }
+}
+.text{
+  position: absolute;
+  top: -52px;
+  left: 114px;
+  padding: 0px 20px;
+  font-size: 14px;
+  width: 380px;
+  height: 36px;
+  line-height: 36px;
+  border-radius: 4px;
+  color: #fefefe;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 .menu-header{
   position: relative;
