@@ -33,6 +33,7 @@ module.exports = {
     'no-mixed-spaces-and-tabs': 'off',
     'no-useless-escape': 'off',
     'no-unreachable': 'off',
+    "no-console":"off",
     "no-useless-escape": 0//这里设置为0则可通过检查
   }
 }
