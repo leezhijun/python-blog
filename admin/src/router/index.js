@@ -220,15 +220,15 @@ router.beforeEach((to, from, next) => {
     if (token) { // 登陆
       next()
     } else {
-      // next({ name: 'LoginPage' })
-      Message({
-        message: '登陆后超作!',
-        type: 'error',
-        duration: 3 * 1000,
-        onClose: ()=>{
-          next({ name: 'LoginPage' })
-        }
-      })
+      next({ name: 'LoginPage' })
+      // Message({
+      //   message: '登陆后超作!',
+      //   type: 'error',
+      //   duration: 3 * 1000,
+      //   onClose: ()=>{
+      //     next({ name: 'LoginPage' })
+      //   }
+      // })
     }
   } else {
     next()

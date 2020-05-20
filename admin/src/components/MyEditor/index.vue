@@ -37,6 +37,10 @@ export default {
       this.simplemde.codemirror.execCommand('goDocEnd') // 光标移动到末尾
     }
   },
+  beforeDestroy () {
+    this.simplemde = null
+    this.timer = null
+  },
   mounted () {
     const _this = this;
     SimpleMDE.prototype.createSideBySide = function() {

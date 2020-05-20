@@ -114,6 +114,9 @@
             <el-form-item label="分类名" prop="cate_name">
               <el-input v-model="form3.cate_name" :maxlength="25" show-word-limit placeholder="请输入分类名"></el-input>
             </el-form-item>
+            <el-form-item label="分类图标" prop="cate_icon">
+              <el-input v-model="form3.cate_icon" :maxlength="30" show-word-limit placeholder="请输入分类图标"></el-input>
+            </el-form-item>
             <el-form-item label="分类logo">
               <el-input v-model="form3.cate_img" placeholder="请输入标题"></el-input>
             </el-form-item>
@@ -165,6 +168,7 @@ export default {
       form3: {
         cate_id: null,
         cate_name: null,
+        cate_icon: null,
         cate_title: null,
         cate_keywords: null,
         cate_description: null,
@@ -174,7 +178,7 @@ export default {
       },
       tableData: [],
       options: [
-        { cate_id: 0,cate_name: '顶级栏目' }
+        // { cate_id: 0,cate_name: '顶级栏目' }
       ],
       optionProps: {
         checkStrictly: true,
@@ -267,8 +271,9 @@ export default {
         this.dialogVisible=false
         this.loading = false
         this.form2.cate_name = ''
-        this.form2.cate_parent_id = 0
+        this.form2.cate_parent_id = [0]
         this.queryList()
+        this.qeuryOneList()
         this.$message(
           {
             message: '添加成功!',
@@ -343,10 +348,9 @@ export default {
     },
     qeuryOneList() {
       catelevels().then(res => {
-        if (res.data.length>0) {
-          const data = res.data
-          this.options = this.options.concat(data)
-        }
+        const data = res.data
+        // this.options = this.options.concat(data)
+        this.options = [{ cate_id: 0,cate_name: '顶级栏目' }, ...data]
       },err => {
         this.$message.error(err.msg);
         console.log(err)

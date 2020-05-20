@@ -111,7 +111,7 @@ class articleHandle:
                     article_update_time=timenow,
                     # article_browse_count=0,
                     # article_like_count=0,
-                    # article_status=param['article_status'],
+                    article_status=param['article_status'],
                     article_comment_status=0,
                     article_order=param['article_order'],
                     article_type=param['article_type'],

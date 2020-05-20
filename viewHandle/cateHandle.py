@@ -73,6 +73,7 @@ class cateHandle:
                 .values(
                     cate_name=param['cate_name'],
                     cate_title=param['cate_title'],
+                    cate_icon=param['cate_icon'],
                     cate_keywords=param['cate_keywords'],
                     cate_description=param['cate_description'],
                     cate_img=param['cate_img'],
@@ -148,7 +149,7 @@ class cateHandle:
             res = await result.fetchall() # fetchall()/fetchone()/fetchmany()/first()
             result2 = await SQL.querySql(sql2) # sql执行
             # print(res)
-            data['data']['data'] = [{'cate_id':i[0],'cate_name':i[1],'cate_title':i[2],'cate_keywords':i[3],'cate_description':i[4],'cate_img':i[5],'cate_order':i[6],'cate_show':i[7],'cate_parent_id':i[8]} for i in res] if res else []
+            data['data']['data'] = [{'cate_id':i[0],'cate_name':i[1],'cate_title':i[2],'cate_keywords':i[3],'cate_description':i[4],'cate_img':i[5],'cate_order':i[6],'cate_show':i[7],'cate_parent_id':i[8],'cate_icon':i[9]} for i in res] if res else []
             data['data']['total'] = result2.rowcount
             # print(data['data'])
         except Exception as e:
@@ -171,7 +172,7 @@ class cateHandle:
             # print(result)
             res = await result.fetchall() # fetchall()/fetchone()/fetchmany()/first()
             # print(res)
-            data['data'] = [{'cate_id':i[0],'cate_name':i[1],'cate_title':i[2],'cate_keywords':i[3],'cate_description':i[4],'cate_img':i[5],'cate_order':i[6],'cate_show':i[7],'cate_parent_id':i[8]} for i in res] if res else []
+            data['data'] = [{'cate_id':i[0],'cate_name':i[1],'cate_title':i[2],'cate_keywords':i[3],'cate_description':i[4],'cate_img':i[5],'cate_order':i[6],'cate_show':i[7],'cate_parent_id':i[8],'cate_icon':i[9]} for i in res] if res else []
             # print(data['data'])
         except Exception as e:
             data['code'] = -100
@@ -194,7 +195,7 @@ class cateHandle:
             # print(result)
             res = await result.fetchall() # fetchall()/fetchone()/fetchmany()/first()
             # print(res)
-            catelist = [{'cate_id':i[0],'cate_name':i[1],'cate_title':i[2],'cate_keywords':i[3],'cate_description':i[4],'cate_img':i[5],'cate_order':i[6],'cate_show':i[7],'cate_parent_id':i[8]} for i in res] if res else []
+            catelist = [{'cate_id':i[0],'cate_name':i[1],'cate_title':i[2],'cate_keywords':i[3],'cate_description':i[4],'cate_img':i[5],'cate_order':i[6],'cate_show':i[7],'cate_parent_id':i[8],'cate_icon':i[9]} for i in res] if res else []
             data['data'] = catelevelHandle(catelist)
             # print(data['data'])
         except Exception as e:

@@ -43,9 +43,9 @@ CREATE TABLE IF NOT EXISTS `blog_user`(
    KEY `userphone` (`user_phone`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---默认用户名 admin 密码 blog123
+--默认用户名 admin 密码 123456
 INSERT INTO `blog_user` (`user_name`, `user_password`,`user_level`,`user_registered_time`,`user_last_login_time`,`user_status`) 
-VALUES ('admin','3b76c77bbfa55eb9e96c5a60d9a2b848',99,NOW(),NOW(),1);
+VALUES ('admin','8cef992a5af6b216dd3c62ae39f4a13b',99,NOW(),NOW(),1);
 
 --类目表
 CREATE TABLE IF NOT EXISTS `blog_cate`(
@@ -58,6 +58,7 @@ CREATE TABLE IF NOT EXISTS `blog_cate`(
    `cate_order` TINYINT(3) UNSIGNED NOT NULL DEFAULT 10 COMMENT '类目排序',
    `cate_show` TINYINT(2) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否展示-1展示',
    `cate_parent_id` TINYINT(4) UNSIGNED NOT NULL COMMENT '父级id',
+   `cate_icon` VARCHAR(32) COMMENT '图标',
    PRIMARY KEY ( `cate_id` ),
    KEY `catename` (`cate_name`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;

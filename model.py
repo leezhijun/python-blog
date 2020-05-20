@@ -35,6 +35,7 @@ blog_cate = sa.Table('blog_cate', metadata,
     sa.Column('cate_order', sa.SmallInteger, nullable=False, default=10),
     sa.Column('cate_show', sa.SmallInteger, nullable=False, default=1),
     sa.Column('cate_parent_id', sa.SmallInteger, nullable=False),
+    sa.Column('cate_icon', sa.String(32)),
 )
 
 blog_article = sa.Table('blog_article', metadata,

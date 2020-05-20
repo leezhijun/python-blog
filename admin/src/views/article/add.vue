@@ -96,6 +96,20 @@ export default {
     submitClick(type) {
       // console.log(this.simplemde.value())
       // console.log(this.cateArr); return false;
+      if (!this.form.article_title) {
+        this.$message({
+          message: '标题不能为空',
+          type: 'warning'
+        });
+        return false
+      }
+      if (!this.form.article_content&&type!==0) {
+        this.$message({
+          message: '文章内容不能为空',
+          type: 'warning'
+        });
+        return false
+      }
       if (this.cateArr.length>0&&this.form.article_type===1) {
         this.form.cate_id = this.cateArr[this.cateArr.length-1]
       } else {
@@ -106,7 +120,7 @@ export default {
       }
       param.data.article_is_hot = param.data.article_is_hot ? 1 : 0
       param.data.article_is_push = param.data.article_is_push ? 1 : 0
-      param.data.article_status = type
+      param.data.article_status = type>0 ? 1 : 0
       this.loading = true
       // console.log(param); return false;
       if (this.article_id) {
