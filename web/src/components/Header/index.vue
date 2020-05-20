@@ -24,6 +24,7 @@
   </header>
 </template>
 <script>
+import { catelevels } from '@/api/cate'
 export default {
   name: 'Header',
   data () {
@@ -39,6 +40,24 @@ export default {
       ],
       text: '长路漫漫其修远兮，吾将上下而求索...'
     }
+  },
+  methods: {
+    qeuryOneList() {
+      catelevels().then(res => {
+        if (res.data.length>0) {
+          const data = res.data
+          this.$nextTick(() => {
+            this.options = this.options.concat(data)
+          })
+        }
+      },err => {
+        this.$message.error(err.msg);
+        console.log(err)
+      })
+    },
+  },
+  mounted () {
+    this.qeuryOneList()
   }
 }
 </script>

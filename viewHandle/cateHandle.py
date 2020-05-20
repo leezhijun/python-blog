@@ -181,7 +181,7 @@ class cateHandle:
             return web.json_response(data)
     
     # 返回级联
-    async def catelevels(self,request,payload):
+    async def catelevels(self,request,payload=None):
         data = {
             'code': 0,
             'data': None,

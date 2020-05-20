@@ -127,7 +127,7 @@ class articleHandle:
         finally:
             return web.json_response(data)
     # 查-all
-    async def articleSelect(self,request,payload):
+    async def articleSelect(self,request,payload=None):
         data = {
             'code': 0,
             'data': {},
@@ -194,7 +194,7 @@ class articleHandle:
         finally:
             return web.json_response(data)
     # 查询文章id
-    async def articleSelectId(self,request,payload):
+    async def articleSelectId(self,request,payload=None):
         data = {
             'code': 0,
             'data': {},

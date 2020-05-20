@@ -27,6 +27,7 @@
   </div>
 </template>
 <script>
+import { getArticleList } from '@/api/article';
 export default {
   name: 'pageIndex',
   data() {
@@ -38,6 +39,8 @@ export default {
         },
         // Some Swiper option/callback...
       },
+      pageIndex: 1,
+      pageSize: 10,
     }
   },
   computed: {
@@ -45,6 +48,26 @@ export default {
       return this.$refs.mySwiper.$swiper
     }
   },
+  methods: {
+    queryList() {
+      const param = {
+        data: {
+          pageIndex: this.pageIndex,
+          pageSize: this.pageSize
+        }
+      }
+      getArticleList(param).then(res => {
+        this.tableData = res.data.data
+        this.total = res.data.total;
+      },err => {
+        this.$message.error(err.msg);
+        console.log(err)
+      })
+    },
+  },
+  mounted () {
+    this.queryList()
+  }
 }
 </script>
 <style lang="scss" scoped>

@@ -42,7 +42,8 @@ async def middleware1(request, handler):
             return web.json_response(data)
 
     else :
-        response = await handler(request)
+        Payload = None
+        response = await handler(request,Payload)
         # print('Middleware结束')
         return response
 
