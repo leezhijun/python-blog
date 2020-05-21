@@ -137,7 +137,10 @@ class articleHandle:
             param = json.loads(request._payload._buffer[0])["data"]
             limit = param['pageSize']
             offset = (param['pageIndex']-1)*param['pageSize']
-            cateArr =  tuple(param['cateArr'].split(',')) if len(param['cateArr']) else ()
+            if 'cateArr' in param:
+                cateArr =  tuple(param['cateArr'].split(',')) if len(param['cateArr']) else ()
+            else:
+                cateArr = ()
             SQL = SQLcontroller() # 创建sql操作对象
             # sql 语句
             sql = blog_article.select().order_by(blog_article.c.article_update_time.desc()).limit(limit).offset(offset)
@@ -145,19 +148,23 @@ class articleHandle:
             # if param['article_id']:
             #     sql = blog_article.select().where(blog_article.c.article_id == param['article_id']).limit(limit).offset(offset)
             #     sql2 = blog_article.select().where(blog_article.c.article_id == param['article_id'])
-            if param['article_title']:
+            if ('article_title' in param) and param['article_title']:
                 sql = blog_article.select().where(blog_article.c.article_title == param['article_title']).order_by(blog_article.c.article_update_time.desc()).limit(limit).offset(offset)
                 sql2 = blog_article.select().where(blog_article.c.article_title == param['article_title'])
+            if ('cate_id' in param) and param['cate_id']:
+                sql = blog_article.select().where(blog_article.c.cate_id == param['cate_id']).order_by(blog_article.c.article_update_time.desc()).limit(limit).offset(offset)
+                sql2 = blog_article.select().where(blog_article.c.cate_id == param['cate_id'])
+            # cate_id
             if len(cateArr):
                 sql = blog_article.select().where(blog_article.c.cate_id.in_(cateArr)).order_by(blog_article.c.article_update_time.desc()).limit(limit).offset(offset)
                 sql2 = blog_article.select().where(blog_article.c.cate_id.in_(cateArr)).order_by(blog_article.c.article_update_time.desc())
-            if len(cateArr) and param['article_title']: 
+            if len(cateArr) and ('article_title' in param) and param['article_title']: 
                 sql = blog_article.select().\
                     where(and_(blog_article.c.article_title == param['article_title'],blog_article.c.cate_id.in_(cateArr))).order_by(blog_article.c.article_update_time.desc()).\
                     limit(limit).offset(offset)
                 sql2 = blog_article.select().\
                     where(and_(blog_article.c.article_title == param['article_title'],blog_article.c.cate_id.in_(cateArr))).order_by(blog_article.c.article_update_time.desc())
-            print(sql)
+            # print(sql)
             result = await SQL.querySql(sql) # sql执行
             # print(result)
             res = await result.fetchall() # fetchall()/fetchone()/fetchmany()/first()
@@ -206,7 +213,7 @@ class articleHandle:
             # sql 语句
             sql = blog_article.select().where(blog_article.c.article_id == param['article_id'])
             sql2 = blog_cate.select()
-            print(sql)
+            # print(sql)
             result = await SQL.querySql(sql) # sql执行
             # print(result)
             res = await result.fetchone() # fetchall()/fetchone()/fetchmany()/first()
@@ -239,6 +246,9 @@ class articleHandle:
             print(res)
             data['data'] = retutnObj(tuple1,res)
             if data['data']['cate_id']:
+                cateItem = [i for i in cateArr if i['cate_id']==data['data']['cate_id']][0]
+                if cateItem:
+                    data['data']['cate_name'] = cateItem['cate_name']
                 cateArr =  returnCateArr(data['data']['cate_id'],cateArr)
                 cateArr.sort()
                 data['data']['cateArr'] = cateArr

@@ -1,30 +1,31 @@
 <template>
-  <div class="page-index clearfix">
-    <Topbar />
-    <section class="content blog-content clearfix">
-      <Header />
-      <section class="mt10 clearfix">
-        <Aside />
-        <section class="section fl">
-          <div class="banner">
-            <swiper ref="mySwiper" :options="swiperOptions">
-              <swiper-slide><img src="@/assets/img/banner1.jpg" /></swiper-slide>
-              <swiper-slide><img src="@/assets/img/banner2.jpg" /></swiper-slide>
-              <div class="swiper-pagination" slot="pagination"></div>
-            </swiper>
-          </div>
-          <ul class="post-list mt10">
-            <PostItem />
-          </ul>
-          <div class="pagination">
-            <div class="pre fl">上一页</div>
-            <div class="next fr">下一页</div>
-          </div>
-          <!-- <Pagination /> -->
-        </section>
-      </section>
-    </section>
-  </div>
+  <section class="section fl">
+    <div class="banner mb10">
+      <swiper
+        ref="mySwiper"
+        :options="swiperOptions"
+      >
+        <swiper-slide><img src="@/assets/img/banner1.jpg" /></swiper-slide>
+        <swiper-slide><img src="@/assets/img/banner2.jpg" /></swiper-slide>
+        <div
+          class="swiper-pagination"
+          slot="pagination"
+        ></div>
+      </swiper>
+    </div>
+    <ul class="post-list">
+      <PostItem
+        v-for="item in dataList"
+        :key="item.article_id"
+        :item='item'
+      />
+    </ul>
+    <div class="pagination">
+      <div class="pre fl">上一页</div>
+      <div class="next fr">下一页</div>
+    </div>
+    <!-- <Pagination /> -->
+  </section>
 </template>
 <script>
 import { getArticleList } from '@/api/article';
@@ -33,19 +34,20 @@ export default {
   data() {
     return {
       swiperOptions: {
-        autoplay: true,// 可选选项，自动滑动
+        autoplay: true, // 可选选项，自动滑动
         pagination: {
           el: '.swiper-pagination'
-        },
+        }
         // Some Swiper option/callback...
       },
       pageIndex: 1,
       pageSize: 10,
-    }
+      dataList: []
+    };
   },
   computed: {
     swiper() {
-      return this.$refs.mySwiper.$swiper
+      return this.$refs.mySwiper.$swiper;
     }
   },
   methods: {
@@ -55,42 +57,32 @@ export default {
           pageIndex: this.pageIndex,
           pageSize: this.pageSize
         }
-      }
-      getArticleList(param).then(res => {
-        this.tableData = res.data.data
-        this.total = res.data.total;
-      },err => {
-        this.$message.error(err.msg);
-        console.log(err)
-      })
-    },
+      };
+      getArticleList(param).then(
+        res => {
+          this.dataList = res.data.data;
+          this.total = res.data.total;
+        },
+        err => {
+          this.$message.error(err.msg);
+          console.log(err);
+        }
+      );
+    }
   },
-  mounted () {
-    this.queryList()
+  mounted() {
+    this.queryList();
   }
-}
+};
 </script>
 <style lang="scss" scoped>
-.banner{
+.banner {
   width: 100%;
   border-radius: 4px;
   overflow: hidden;
-  img{
+  img {
     width: 100%;
     border-radius: 4px;
-  }
-}
-.pagination{
-  margin-top: 50px;
-  .pre,.next{
-    width: 80px;
-    height: 28px;
-    line-height: 28px;
-    text-align: center;
-    border-radius: 4px;
-    background-color: #f7f6f1;
-    border: 1px solid #fff;
-    box-shadow: 0px 1px 6px 1px #d0d0d0;
   }
 }
 </style>

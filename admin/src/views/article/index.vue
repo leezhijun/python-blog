@@ -228,7 +228,7 @@ export default {
     queryList() {
       const param = {
         data: {
-          article_id: this.form.article_id,
+          // article_id: this.form.article_id,
           article_title: this.form.article_title,
           pageIndex: this.pageIndex,
           pageSize: this.pageSize

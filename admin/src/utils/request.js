@@ -2,8 +2,8 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 import { getToken,saveToken,clearToken } from './auth.js'
 
-// const baseUrl = 'http://localhost:8090/'
-const baseUrl = 'http://pyapi.kingleoric.com/'
+const baseUrl = 'http://localhost:8090/'
+// const baseUrl = 'http://pyapi.kingleoric.com/'
 
 // 创建axios实例
 const service = axios.create({

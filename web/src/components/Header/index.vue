@@ -4,18 +4,18 @@
       <div class="logo"><img src="@/assets/img/logo.jpg" /></div>
       <div class="text ell">{{text}}</div>
       <ul class="count f12">
-        <li>12 <br> 文章</li>
-        <li>12 <br> 评论</li>
-        <li>12 <br> 邻居</li>
+        <li>-- <br> 文章</li>
+        <li>-- <br> 评论</li>
+        <li>-- <br> 邻居</li>
       </ul>
     </div>
     <menu class="section fl">
       <ul class="nav">
-        <li v-for="item in dataList" :key="item.id" @mouseenter="item.show=true" @mouseleave="item.show=false">
-          {{item.name}}<i class="iconfont f20 icon-triangle easing" v-if="item.children&&item.children.length>0" :class="{on: item.show}"></i>
+        <li class="cursor" v-for="item in dataList" :key="item.id" @mouseenter="item.show=true" @mouseleave="item.show=false" @click.self="junmCate(item.cate_id)">
+          {{item.cate_name}}<i class="iconfont f20 icon-triangle easing" v-if="item.children&&item.children.length>0" :class="{on: item.show}"></i>
           <transition name="fade">
             <ul class="children" v-if="item.show">
-              <li v-for="i in item.children" :key="i.id">{{i.name}}</li>
+              <li class="cursor" v-for="i in item.children" :key="i.id" @click.stop="junmCate(i.cate_id)">{{i.cate_name}}</li>
             </ul>
           </transition>
         </li>
@@ -30,26 +30,27 @@ export default {
   data () {
     return {
       dataList: [
-        { name: '代码',id: 1, children: [{ name: '代码1',id: 11, }, { name: '代码2',id: 12, }], show: false },
-        { name: '分享',id: 2, children: [{ name: '代码1',id: 21, }, { name: '代码2',id: 22, }], show: false },
-        { name: '日志',id: 3, children: [{ name: '代码1',id: 31, }, { name: '代码2',id: 32, }], show: false },
-        { name: '随笔',id: 4 , show: false },
-        { name: '音乐',id: 5 , show: false },
-        { name: '设计',id: 6 , show: false },
-        { name: '杂谈',id: 7 , show: false },
+        // { name: '代码',id: 1, children: [{ name: '代码1',id: 11, }, { name: '代码2',id: 12, }], show: false },
+        // { name: '分享',id: 2, children: [{ name: '代码1',id: 21, }, { name: '代码2',id: 22, }], show: false },
+        // { name: '日志',id: 3, children: [{ name: '代码1',id: 31, }, { name: '代码2',id: 32, }], show: false },
+        // { name: '随笔',id: 4 , show: false },
+        // { name: '音乐',id: 5 , show: false },
+        // { name: '设计',id: 6 , show: false },
+        // { name: '杂谈',id: 7 , show: false },
       ],
       text: '长路漫漫其修远兮，吾将上下而求索...'
     }
   },
   methods: {
+    junmCate(id) {
+      this.$router.push({ name: 'Cate', query: { id } })
+    },
     qeuryOneList() {
       catelevels().then(res => {
-        if (res.data.length>0) {
-          const data = res.data
-          this.$nextTick(() => {
-            this.options = this.options.concat(data)
-          })
-        }
+        this.dataList = res.data.map(item => {
+          item.show=false
+          return item
+        })
       },err => {
         this.$message.error(err.msg);
         console.log(err)

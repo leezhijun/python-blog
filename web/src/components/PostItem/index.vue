@@ -1,29 +1,35 @@
 <template>
-  <li class="post-item">
+  <li class="post-item" :class="{mt60:item.article_img,mt10:!item.article_img}">
     <div class="post-content clearfix">
-      <div class="asset_img">
-        <div class="img"><img src="@/assets/img/ar_logo.jpg" /></div>
+      <div class="asset_img" v-if="item.article_img">
+        <div class="img"><img :src="item.article_img" /></div>
         <div class="counts f12">
-          <span><i class="iconfont icon-liulan f12"></i> 123</span>
+          <span><i class="iconfont icon-liulan f12"></i>{{item.article_browse_count}}</span>
           <span class="ml10"><i class="iconfont icon-comments f12"></i> 123</span>
         </div>
       </div>
-      <h3 class="title ell">Hooks & Mobx 只需额外知道两个 Hook，便能体验到如此简单的开发方式</h3>
-      <div class="des ell2">本文主要讲解了下我平时在工作开发中遇到的关于 Hooks 的一切缺点和问题，并尝试配合 Mobx 解决这些问题的经历。我觉得两者的配合可以极大的降低开发过程中有可能出现的问题以及极大的提高开发体验，而且学习成本也是非常的低。</div>
+      <h3 class="title ell cursor" @click="jumpArticle(item.article_id)">{{item.article_title}}</h3>
+      <div class="des ell2">{{item.article_description}}</div>
     </div>
     <div class="post-others">
-      <span class="tiem mr20"><i class="iconfont icon-time f12"></i>2020-10-01 12:12:12</span>
-      <span class="cate mr20"><i class="iconfont icon-category f12"></i>html</span>
-      <span class="tag"><i class="iconfont icon-tags f12"></i>html,html5</span>
-      <span class="fr"><i class="iconfont icon-like f12"></i>7</span>
+      <span class="tiem mr20"><i class="iconfont icon-time f12"></i>{{item.article_publish_time}}</span>
+      <span class="cate mr20" v-if="item.cate_name"><i class="iconfont icon-category f12"></i>{{item.cate_name}}</span>
+      <span class="tag" v-if="item.tags"><i class="iconfont icon-tags f12"></i><span v-for="i in item.tags" :key="i.tag_id">{{i.tag_name}}</span> </span>
+      <span class="fr"><i class="iconfont icon-like f12"></i>{{item.article_like_count}}</span>
     </div>
   </li>
 </template>
 <script>
 export default {
   name: 'PostItem',
+  props: ['item'],
   data () {
     return {}
+  },
+  methods: {
+    jumpArticle(id) {
+      this.$router.push({ name: 'Article', query: { id } })
+    }
   }
 };
 </script>
@@ -31,11 +37,13 @@ export default {
 .post-item {
   padding: 10px;
   // margin-bottom: 10px;
-  margin-top: 60px;
   border-radius: 4px;
   border: 1px solid #fff;
   box-shadow: 0px 1px 2px 1px #e0dfdb;
   background-color: #f7f6f1;
+}
+.mt60{
+  margin-top: 60px;
 }
 .title {
   padding: 10px 0;

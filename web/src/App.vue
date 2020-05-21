@@ -1,6 +1,15 @@
 <template>
   <div id="app">
-    <router-view/>
+    <div class="page-index clearfix">
+      <Topbar />
+      <section class="content blog-content clearfix">
+        <Header />
+        <section class="mt10 clearfix">
+          <Aside />
+          <router-view/>
+        </section>
+      </section>
+    </div>
   </div>
 </template>
 
@@ -17,4 +26,5 @@
   // background-size: cover;
   background-color: #2b2b37;
 }
+
 </style>
