@@ -6,7 +6,7 @@ curPath = os.path.abspath(os.path.dirname(__file__))
 rootPath = os.path.split(curPath)[0]
 sys.path.append(rootPath)
 from sqlcontroller import SQLcontroller
-from untils.dataHandle import retutnObj,returnCateArr
+from untils.dataHandle import retutnObj,returnCateArr,returnCateChild
 from model import blog_article,blog_cate
 from sqlalchemy.sql import and_, or_, not_
 from untils.formatDate import formatDate
@@ -152,8 +152,8 @@ class articleHandle:
                 sql = blog_article.select().where(blog_article.c.article_title == param['article_title']).order_by(blog_article.c.article_update_time.desc()).limit(limit).offset(offset)
                 sql2 = blog_article.select().where(blog_article.c.article_title == param['article_title'])
             if ('cate_id' in param) and param['cate_id']:
-                sql = blog_article.select().where(blog_article.c.cate_id == param['cate_id']).order_by(blog_article.c.article_update_time.desc()).limit(limit).offset(offset)
-                sql2 = blog_article.select().where(blog_article.c.cate_id == param['cate_id'])
+                cateArr = await self.catelevelsArr(param['cate_id'])
+                print(cateArr)
             # cate_id
             if len(cateArr):
                 sql = blog_article.select().where(blog_article.c.cate_id.in_(cateArr)).order_by(blog_article.c.article_update_time.desc()).limit(limit).offset(offset)
@@ -191,7 +191,7 @@ class articleHandle:
                 'article_order',
                 'article_type',
             )
-            print(res)
+            # print(res)
             data['data']['data'] = [retutnObj(tuple1,i) for i in res] if res else []
             data['data']['total'] = result2.rowcount
             # print(data['data'])
@@ -259,5 +259,27 @@ class articleHandle:
             data['code'] = -100
             data['msg'] = str(e)
             data['data'] = None
+        finally:
+            return web.json_response(data)
+    
+    async def catelevelsArr(self,cate_id):
+        data = {
+            'code': 0,
+            'data': None,
+            'msg' :''
+        }
+        try:
+            SQL = SQLcontroller() # 创建sql操作对象
+            # sql 语句
+            sql = blog_cate.select()
+            result = await SQL.querySql(sql) # sql执行
+            res = await result.fetchall() # fetchall()/fetchone()/fetchmany()/first()
+            catelist = [{'cate_id':i[0],'cate_name':i[1],'cate_title':i[2],'cate_keywords':i[3],'cate_description':i[4],'cate_img':i[5],'cate_order':i[6],'cate_show':i[7],'cate_parent_id':i[8],'cate_icon':i[9]} for i in res] if res else []
+            arr = returnCateChild(cate_id,catelist) 
+            print(arr)
+            return arr
+        except Exception as e:
+            data['code'] = -100
+            data['msg'] = str(e)
         finally:
             return web.json_response(data)

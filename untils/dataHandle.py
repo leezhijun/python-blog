@@ -28,13 +28,22 @@ def returnCateArr(cate_id,cateList):
     def getParent(id,cateList):
         # for i in cateList:
         cateItem = [i for i in cateList if i['cate_id']==id][0]
-        if not cateItem:
-            return
-        else:
-            cateArr.append(cateItem['cate_id'])
-            if cateItem['cate_parent_id']!=0:
-                getParent(cateItem['cate_parent_id'],cateList)
+        cateArr.append(cateItem['cate_id'])
+        if cateItem['cate_parent_id']!=0:
+            getParent(cateItem['cate_parent_id'],cateList)
     getParent(cate_id,cateList)
+    return cateArr
+# 返回下级
+def returnCateChild(cate_id,cateList):
+    cateArr = []
+    cateArr.append(cate_id)
+    def getChird(id,cateList):
+        # for i in cateList:
+        cateItem = [i for i in cateList if i['cate_parent_id']==id][0]
+        if cateItem:
+            cateArr.append(cateItem['cate_id'])
+            getChird(cateItem['cate_id'],cateList)
+    getChird(cate_id,cateList)
     return cateArr
 
 
