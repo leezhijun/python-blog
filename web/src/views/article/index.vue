@@ -105,12 +105,15 @@ export default {
     padding: 10px 0;
     border-bottom: 1px solid #e4e4e3;
   }
-  .markdown-body {
-    color: #6e6c66;
-  }
-  .markdown-body .highlight pre,
-  .markdown-body pre {
-    background-color: #eeeee6;
-  }
+
+}
+</style>
+<style lang="scss">
+.markdown-body {
+  color: #6e6c66;
+}
+.markdown-body .highlight pre,.markdown-body pre {
+  color: #514d42;
+  background-color: #eeeee6;
 }
 </style>
