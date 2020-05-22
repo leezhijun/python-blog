@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `blog_link`(
 CREATE TABLE IF NOT EXISTS `blog_tag`(
    `tag_id` BIGINT(20) UNSIGNED AUTO_INCREMENT COMMENT '自增id',
    `tag_name` VARCHAR(50) NOT NULL COMMENT '标签名',
-   `tag_alias` VARCHAR(80) NOT NULL COMMENT '标签别名',
+   -- `tag_alias` VARCHAR(80) NOT NULL COMMENT '标签别名',
    `tag_order` TINYINT(2) UNSIGNED NOT NULL DEFAULT 10 COMMENT 'tag排序',
    `tag_img` VARCHAR(255) COMMENT '标签img',
    `tag_description` VARCHAR(500) COMMENT '标签描述',

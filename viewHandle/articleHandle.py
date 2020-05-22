@@ -7,8 +7,8 @@ rootPath = os.path.split(curPath)[0]
 sys.path.append(rootPath)
 from sqlcontroller import SQLcontroller
 from untils.dataHandle import retutnObj,returnCateArr,returnCateChild
-from model import blog_article,blog_cate
-from sqlalchemy.sql import and_, or_, not_
+from model import blog_article,blog_cate,blog_tag_and_article,blog_tag
+from sqlalchemy.sql import and_, or_, not_,bindparam,select
 from untils.formatDate import formatDate
 from aiohttp import web
 
@@ -50,9 +50,12 @@ class articleHandle:
                     article_order=param['article_order'],
                     article_type=param['article_type'],
                 )
-            print(sql)
+            # print(sql)
             result = await SQL.querySql(sql) # sql执行
-            res = result.rowcount # fetchall()/fetchone()/fetchmany()/first()
+            res = result.lastrowid # fetchall()/fetchone()/fetchmany()/first()
+            print(param['tags'])
+            if res and len(param['tags']):
+                res = await self.addArticleTag(res,param['tags'],request)
             # print(res)
             data['data'] = res
         except Exception as e:
@@ -212,6 +215,7 @@ class articleHandle:
             # sql 语句
             sql = blog_article.select().where(blog_article.c.article_id == param['article_id'])
             sql2 = blog_cate.select()
+            sql3 = 'SELECT tag_id,tag_name FROM blog_tag WHERE tag_id IN (SELECT tag_id FROM blog_tag_and_article WHERE article_id=%s)' % param['article_id']
             # print(sql)
             result = await SQL.querySql(sql) # sql执行
             # print(result)
@@ -254,13 +258,19 @@ class articleHandle:
                 # print(data['data']['cate_id'])
                 # print(cateArr)
             # print(data['data'])
+
+            result3 = await SQL.querySql(sql3) # sql执行
+            res3 = await result3.fetchall()
+            if res3 and len(res3):
+                data['data']['tags'] = [{'tag_id': i[0],'tag_name': i[1]} for i in res3]
+            # data['data']['tags'] = res3
         except Exception as e:
             data['code'] = -100
             data['msg'] = str(e)
             data['data'] = None
         finally:
             return web.json_response(data)
-    
+    # 返回类目子集
     async def catelevelsArr(self,cate_id):
         data = {
             'code': 0,
@@ -279,5 +289,45 @@ class articleHandle:
         except Exception as e:
             data['code'] = -100
             data['msg'] = str(e)
+            return web.json_response(data)
+    # 添加文章标签
+    async def addArticleTag(self,article_id,tagList,request):
+        data = {
+            'code': 0,
+            'data': None,
+            'msg' :''
+        }
+        try:
+            SQL = SQLcontroller() # 创建sql操作对象
+            # sql 语句
+            sql = blog_tag_and_article.insert(None)
+            dataList = [{'article_id': int(article_id), 'tag_id': int(i['tag_id'])} for i in tagList]
+            result = await SQL.queryManySql(sql,dataList) # sql执行
+            res = await result.rowcount() # fetchall()/fetchone()/fetchmany()/first()
+            return res
+        except Exception as e:
+            data['code'] = -100
+            data['msg'] = str(e)
+    
+    async def tagArticleDelete(self,request,payload):
+        data = {
+            'code': 0,
+            'data': '',
+            'msg' :''
+        }
+        try:
+            param = json.loads(request._payload._buffer[0])["data"]
+            SQL = SQLcontroller() # 创建sql操作对象
+            # sql 语句
+            sql = blog_tag_and_article.delete(None).where(and_(blog_tag_and_article.c.tag_id == param['tag_id'],blog_tag_and_article.c.article_id == param['article_id']))
+            result = await SQL.querySql(sql) # sql执行
+            # print(result)
+            res = result.rowcount # fetchall()/fetchone()/fetchmany()/first()
+            # print(res)
+            data['data'] = res
+        except Exception as e:
+            data['code'] = -100
+            data['msg'] = str(e)
+        finally:
             return web.json_response(data)
 

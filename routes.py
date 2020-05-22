@@ -32,9 +32,10 @@ def set_routers(app):
     app.router.add_post('/tagDelete', tagHandle.tagDelete) # 删除标签
     app.router.add_post('/tagUpdate', tagHandle.tagUpdate) # 修改标签
     app.router.add_post('/tagSelect', tagHandle.tagSelect) # 查询标签列表
+    app.router.add_post('/tagSearchName', tagHandle.tagSearchName) # 查询标签id
     app.router.add_post('/addArticle', articleHandle.addArticle) # 添加文章
     app.router.add_post('/articleDelete', articleHandle.articleDelete) # 删除文章
     app.router.add_post('/articleUpdate', articleHandle.articleUpdate) # 修改文章
     app.router.add_post('/articleSelect', articleHandle.articleSelect) # 查询文章列表
     app.router.add_post('/articleSelectId', articleHandle.articleSelectId) # 查询文章列表ID
-    
+    app.router.add_post('/tagArticleDelete', articleHandle.tagArticleDelete) # 删除文章标签id

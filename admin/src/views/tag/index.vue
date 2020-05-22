@@ -38,10 +38,6 @@
           label="标签名">
         </el-table-column>
         <el-table-column
-          prop="tag_alias"
-          label="标签别名">
-        </el-table-column>
-        <el-table-column
           prop="tag_order"
           label="排序">
         </el-table-column>
@@ -77,9 +73,6 @@
             <el-form-item label="标签名" prop="tag_name">
               <el-input v-model="form2.tag_name" :maxlength="25" show-word-limit placeholder="请输入标签名"></el-input>
             </el-form-item>
-            <el-form-item label="标签别名" prop="tag_name">
-              <el-input v-model="form2.tag_alias" :maxlength="25" show-word-limit placeholder="请输入标签别名"></el-input>
-            </el-form-item>
           </el-row>
         </el-form>
       </div>
@@ -98,9 +91,6 @@
           <el-row :gutter="10">
             <el-form-item label="标签名" prop="tag_name">
               <el-input v-model="form3.tag_name" :maxlength="25" show-word-limit placeholder="请输入标签名"></el-input>
-            </el-form-item>
-            <el-form-item label="标签别名" prop="tag_alias">
-              <el-input v-model="form3.tag_alias" :maxlength="25" show-word-limit placeholder="请输入标签别名"></el-input>
             </el-form-item>
             <el-form-item label="标签logo">
               <el-input v-model="form3.tag_img" placeholder="请输入标题"></el-input>
@@ -139,12 +129,10 @@ export default {
       },
       form2: {
         tag_name: null, // tag_name
-        tag_alias: null, // 别名
       },
       form3: {
         tag_id: null,
         tag_name: null,
-        tag_alias: null,
         tag_description: null,
         tag_img: null,
       },
@@ -153,9 +141,6 @@ export default {
         tag_name: [
           { required: true,message: '请输入标签名称',trigger: 'blur' }
         ],
-        tag_alias: [
-          { required: true,message: '请输入标签别名',trigger: 'blur' }
-        ]
       }
     }
   },
@@ -223,8 +208,7 @@ export default {
     addTagQuery() {
       const param = {
         data: {
-          tag_name: this.form2.tag_name,
-          tag_alias: this.form2.tag_alias
+          tag_name: this.form2.tag_name
         }
       }
       this.loading = true

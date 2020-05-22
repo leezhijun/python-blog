@@ -31,3 +31,19 @@ export function tagUpdate(data) {
     data
   })
 }
+
+export function searchTag(data) {
+  return request({
+    url: '/tagSearchName',
+    method: 'post',
+    data
+  })
+}
+
+export function delTagArticle(data) {
+  return request({
+    url: '/tagArticleDelete',
+    method: 'post',
+    data
+  })
+}

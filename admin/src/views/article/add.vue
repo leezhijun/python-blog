@@ -45,6 +45,20 @@
           </el-select> -->
           <el-cascader :options="options" :props="optionProps" v-model="cateArr" :show-all-levels="false"></el-cascader>
         </el-form-item>
+        <el-form-item label="文章标签">
+          <el-input v-model="tag" style="width:220px"></el-input><el-button class="ml20" :disabled='tags.length>2' type="primary" @click="addTagToList">添加</el-button>
+        </el-form-item>
+        <el-form-item label="">
+          <el-tag
+            class="mr10"
+            v-for="tag in tags"
+            :key="tag.name"
+            closable
+            @close='delTag(tag.tag_id)'
+            :type="tag.type">
+            {{tag.tag_name}}
+          </el-tag>
+        </el-form-item>
       </el-form>
       <div class="editor">
         <!-- <textarea id="simplemde"></textarea> -->
@@ -62,6 +76,7 @@
 import MyEditor from '@/components/MyEditor'
 import { catelevels } from '@/api/cate'
 import { addArticle,articleSelectId,articleUpdate } from '@/api/article'
+import { searchTag,delTagArticle } from '@/api/tag'
 export default {
   name: 'AddPage',
   components: {
@@ -89,6 +104,8 @@ export default {
         label: 'cate_name',
         children: 'children'
       },
+      tag: '', // 标签
+      tags: [], // 标签列表
     }
   },
   methods: {
@@ -121,6 +138,7 @@ export default {
       param.data.article_is_hot = param.data.article_is_hot ? 1 : 0
       param.data.article_is_push = param.data.article_is_push ? 1 : 0
       param.data.article_status = type>0 ? 1 : 0
+      param.data.tags = this.tags
       this.loading = true
       // console.log(param); return false;
       if (this.article_id) {
@@ -180,10 +198,79 @@ export default {
         if (res.data.cateArr) {
           this.cateArr = res.data.cateArr
         }
+        if (res.data.tags) {
+          this.tags = res.data.tags
+        }
       },err => {
         this.$message.error(err.msg);
         console.log(err)
       })
+    },
+    addTagToList() {
+      if (!this.tag) {
+        this.$message(
+            {
+              message: '添加标签不能为空',
+              type: 'warning',
+            }
+          )
+      }
+      // this.tags.push({ tag_name: this.tag })
+      this.searchTagQuery()
+    },
+    searchTagQuery() {
+      const param = {
+        data: {
+          tag_name: this.tag
+        }
+      }
+      searchTag(param).then(res => {
+        if (this.tags.filter(item => item.tag_id===res.data.tag_id).length>0) {
+          this.$message(
+            {
+              message: '不要重复添加!',
+              type: 'warning',
+            }
+          )
+        }else {
+          this.tags.push(res.data);
+          this.tag = ''
+          this.$message(
+            {
+              message: '添加成功!',
+              type: 'success',
+            }
+          )
+        }
+      },err => {
+        this.$message.error(err.msg);
+        console.log(err)
+      })
+    },
+    delTag(tag_id) {
+      if (this.article_id) {
+        const param = {
+          data: {
+            article_id: this.article_id,
+            tag_id
+          }
+        }
+        delTagArticle(param).then(res => {
+          // console.log(res)
+          this.tags = this.tags.filter(item => item.tag_id!==tag_id)
+          this.$message(
+            {
+              message: '删除成功!',
+              type: 'success',
+            }
+          )
+        },err => {
+          this.$message.error(err.msg);
+          console.log(err)
+        })
+      } else {
+        this.tags = this.tags.filter(item => item.tag_id!==tag_id)
+      }
     }
   },
   beforeMount () {

@@ -1,5 +1,5 @@
 <template>
-  <div class="editor" :style="{height:(height+70)+'px'}">
+  <div class="editor" :style="{'min-height':(height+70)+'px'}">
     <textarea id="simplemde"></textarea>
   </div>
 </template>

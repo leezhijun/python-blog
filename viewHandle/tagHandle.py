@@ -25,12 +25,15 @@ class tagHandle:
             print(param)
             SQL = SQLcontroller() # 创建sql操作对象
             # sql 语句
-            sql = blog_tag.insert(None).values(tag_name=param['tag_name'],tag_order=10,tag_alias=param['tag_alias'])
+            sql = blog_tag.insert(None).values(tag_name=param['tag_name'],tag_order=10)
             # print(sql)
             result = await SQL.querySql(sql) # sql执行
-            res = result.rowcount # fetchall()/fetchone()/fetchmany()/first()
+            res = result.lastrowid # fetchall()/fetchone()/fetchmany()/first()/lastrowid
             # print(res)
-            data['data'] = res
+            data['data'] = {
+                'tag_id': res,
+                'tag_name': param['tag_name'],
+            }
         except Exception as e:
             data['code'] = -100
             data['msg'] = str(e)
@@ -72,7 +75,6 @@ class tagHandle:
             sql = blog_tag.update(None).where(blog_tag.c.tag_id == param['tag_id'])\
                 .values(
                     tag_name=param['tag_name'],
-                    tag_alias=param['tag_alias'],
                     tag_img=param['tag_img'],
                     tag_description=param['tag_description'],
                     tag_order=param['tag_order']
@@ -120,9 +122,45 @@ class tagHandle:
             res = await result.fetchall() # fetchall()/fetchone()/fetchmany()/first()
             result2 = await SQL.querySql(sql2) # sql执行
             # print(res)
-            data['data']['data'] = [{'tag_id':i[0],'tag_name':i[1],'tag_alias':i[2],'tag_order':i[3],'tag_img':i[4],'tag_description':i[5]} for i in res] if res else []
+            data['data']['data'] = [{'tag_id':i[0],'tag_name':i[1],'tag_order':i[2],'tag_img':i[3],'tag_description':i[4]} for i in res] if res else []
             data['data']['total'] = result2.rowcount
             # print(data['data'])
+        except Exception as e:
+            data['code'] = -100
+            data['msg'] = str(e)
+        finally:
+            return web.json_response(data)
+    
+    # 文章添加标签-查询到返回tag_id,无则添加
+    async def tagSearchName(self,request,payload):
+        data = {
+            'code': 0,
+            'data': {},
+            'msg' :''
+        }
+        try:
+            param = json.loads(request._payload._buffer[0])["data"]
+            print(param)
+            SQL = SQLcontroller() # 创建sql操作对象
+            # sql 语句
+            sql = blog_tag.select().where(blog_tag.c.tag_name == param['tag_name'])
+            result = await SQL.querySql(sql) # sql执行
+            res = await result.fetchone()
+            print(res)
+            if res:
+                data['data'] = {
+                    'tag_id': res[0],
+                    'tag_name': res[1],
+                }
+            else:
+                sql2 = blog_tag.insert(None).values(tag_name=param['tag_name'],tag_order=10)
+                result2 = await SQL.querySql(sql2) # sql执行
+                res2 = result2.lastrowid # fetchall()/fetchone()/fetchmany()/first()/lastrowid
+                data['data'] = {
+                    'tag_id': res2,
+                    'tag_name': param['tag_name'],
+                }
+            print(data['data'])
         except Exception as e:
             data['code'] = -100
             data['msg'] = str(e)

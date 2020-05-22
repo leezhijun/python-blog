@@ -80,18 +80,18 @@ blog_article = sa.Table('blog_article', metadata,
 blog_tag = sa.Table('blog_tag', metadata,
     sa.Column('tag_id', sa.BigInteger, primary_key=True),
     sa.Column('tag_name', sa.String(50), nullable=False),
-    sa.Column('tag_alias', sa.String(80), nullable=False),
+    # sa.Column('tag_alias', sa.String(80), nullable=False),
     sa.Column('tag_order', sa.SmallInteger, nullable=False, default=0),
     sa.Column('tag_img', sa.String(255)),
     sa.Column('tag_description', sa.String(500)),
 )
 
-# blog_tag_and_article = sa.Table('blog_tag_and_article', metadata,
-#     sa.Column('tag_id', sa.BigInteger, ullable=False),
-#     sa.Column('article_id', sa.BigInteger, nullable=False),
-# )
+blog_tag_and_article = sa.Table('blog_tag_and_article', metadata,
+    sa.Column('tag_id', sa.BigInteger, nullable=False),
+    sa.Column('article_id', sa.BigInteger, nullable=False),
+)
 
-# blog_img = sa.Table('blog_img', metadata,
-#     sa.Column('article_id', sa.BigInteger, nullable=False),
-#     sa.Column('img_url', sa.String(255), nullable=False),
-# )
+blog_img = sa.Table('blog_img', metadata,
+    sa.Column('article_id', sa.BigInteger, nullable=False),
+    sa.Column('img_url', sa.String(255), nullable=False),
+)
