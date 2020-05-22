@@ -153,7 +153,6 @@ class articleHandle:
                 sql2 = blog_article.select().where(blog_article.c.article_title == param['article_title'])
             if ('cate_id' in param) and param['cate_id']:
                 cateArr = await self.catelevelsArr(param['cate_id'])
-                print(cateArr)
             # cate_id
             if len(cateArr):
                 sql = blog_article.select().where(blog_article.c.cate_id.in_(cateArr)).order_by(blog_article.c.article_update_time.desc()).limit(limit).offset(offset)
@@ -243,7 +242,7 @@ class articleHandle:
                 'article_order',
                 'article_type',
             )
-            print(res)
+            # print(res)
             data['data'] = retutnObj(tuple1,res)
             if data['data']['cate_id']:
                 cateItem = [i for i in cateArr if i['cate_id']==data['data']['cate_id']][0]
@@ -253,7 +252,7 @@ class articleHandle:
                 cateArr.sort()
                 data['data']['cateArr'] = cateArr
                 # print(data['data']['cate_id'])
-                print(cateArr)
+                # print(cateArr)
             # print(data['data'])
         except Exception as e:
             data['code'] = -100
@@ -274,12 +273,11 @@ class articleHandle:
             sql = blog_cate.select()
             result = await SQL.querySql(sql) # sql执行
             res = await result.fetchall() # fetchall()/fetchone()/fetchmany()/first()
-            catelist = [{'cate_id':i[0],'cate_name':i[1],'cate_title':i[2],'cate_keywords':i[3],'cate_description':i[4],'cate_img':i[5],'cate_order':i[6],'cate_show':i[7],'cate_parent_id':i[8],'cate_icon':i[9]} for i in res] if res else []
-            arr = returnCateChild(cate_id,catelist) 
-            print(arr)
+            catelist = [{'cate_id':i[0],'cate_parent_id':i[8]} for i in res] if res else []
+            arr = returnCateChild(int(cate_id),catelist) 
             return arr
         except Exception as e:
             data['code'] = -100
             data['msg'] = str(e)
-        finally:
             return web.json_response(data)
+

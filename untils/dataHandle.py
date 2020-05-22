@@ -37,13 +37,15 @@ def returnCateArr(cate_id,cateList):
 def returnCateChild(cate_id,cateList):
     cateArr = []
     cateArr.append(cate_id)
-    def getChird(id,cateList):
+    def getChird(arr):
         # for i in cateList:
-        cateItem = [i for i in cateList if i['cate_parent_id']==id][0]
-        if cateItem:
-            cateArr.append(cateItem['cate_id'])
-            getChird(cateItem['cate_id'],cateList)
-    getChird(cate_id,cateList)
+        # print(arr,cateList)
+        cateItem = [i['cate_id'] for i in cateList if (i['cate_parent_id'] in arr)]
+        if len(cateItem):
+            # cateArr.append(cateItem[0]['cate_id'])
+            cateArr.extend(cateItem)
+            getChird(cateItem)
+    getChird(cateArr)
     return cateArr
 
 
