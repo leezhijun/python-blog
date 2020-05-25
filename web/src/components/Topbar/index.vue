@@ -1,7 +1,7 @@
 <template>
   <header class="top-header">
     <div class="content clearfix">
-      <div class="logo mr10 fl"><i class="iconfont icon-kingleoric f24"></i></div>
+      <a href="/" class="logo mr10 c000 fl"><i class="iconfont icon-kingleoric f24"></i></a>
       <ul class="top-menu">
         <li class="easing"><i class="iconfont icon-about"></i>关于</li>
         <li class="easing"><i class="iconfont icon-cc-archive"></i>归档</li>

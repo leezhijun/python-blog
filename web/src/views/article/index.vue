@@ -11,7 +11,7 @@
         ><i class="iconfont icon-category f12"></i>&nbsp;{{obj.cate_name}}</span>
       </div>
       <div
-        class="mt10 markdown-body"
+        class="mt20 markdown-body"
         v-html="content"
       ></div>
       <div
@@ -21,6 +21,7 @@
         <i class="iconfont icon-tags f12"></i><span
           v-for="i in obj.tags"
           :key="i.tag_id"
+          class="f12 ml5"
         >{{i.tag_name}}</span>
       </div>
     </article>

@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `blog_user`(
 
 --默认用户名 admin 密码 123456
 INSERT INTO `blog_user` (`user_name`, `user_password`,`user_level`,`user_registered_time`,`user_last_login_time`,`user_status`) 
-VALUES ('admin','8cef992a5af6b216dd3c62ae39f4a13b',99,NOW(),NOW(),1);
+VALUES ('admin','4f88589e1b6eb5cb93b879c98463cdf6',99,NOW(),NOW(),1);
 
 --类目表
 CREATE TABLE IF NOT EXISTS `blog_cate`(

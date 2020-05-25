@@ -28,8 +28,8 @@
         <li>日志总数：--</li>
         <li>文章总数：--</li>
         <li>标签总数：--</li>
-        <li>运行天数：--</li>
-        <li>建站日期：--</li>
+        <li>运行天数：{{days}}</li>
+        <li>建站日期：2020-5-25</li>
       </ul>
     </aside>
   </aside>
@@ -39,8 +39,22 @@ export default {
   name: 'Aside',
   data () {
     return {
+      days: '--',
       tagList: ['html','css', '网页设计', 'javascript','vue', '思维导图', 'react','python','linux','算法']
     }
+  },
+  methods: {
+    getDays() {
+      const timestamp = (new Date("2020/05/25 00:00:00")).getTime();
+      const timeNow = new Date().getTime()
+      if (timestamp<timeNow) {
+        const cha = (timeNow - timestamp)/(1*24*60*60*1000)
+        this.days = Math.ceil(cha)
+      }
+    }
+  },
+  mounted () {
+    this.getDays()
   }
 }
 </script>
