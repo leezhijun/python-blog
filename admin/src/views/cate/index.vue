@@ -118,7 +118,16 @@
               <el-input v-model="form3.cate_icon" :maxlength="30" show-word-limit placeholder="请输入分类图标"></el-input>
             </el-form-item>
             <el-form-item label="分类logo">
-              <el-input v-model="form3.cate_img" placeholder="请输入标题"></el-input>
+              <!-- <el-input v-model="form3.cate_img" placeholder="请输入标题"></el-input> -->
+              <el-upload
+                :headers="headers"
+                :action="uploadUrl"
+                :on-success="onSuccess"
+                :on-error="onError"
+              >
+                <el-button size="small" type="primary">点击上传</el-button>
+                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              </el-upload>
             </el-form-item>
             <el-form-item label="排序">
               <el-input-number v-model="form3.cate_order" :max="99" :controls="false" :step='1' step-strictly></el-input-number>
@@ -147,6 +156,7 @@
 </template>
 <script>
 import { getCateList,addCate,cateDelete,cateUpdate,catelevels,cateUpdateShow } from '@/api/cate'
+import { getToken } from '@/utils/auth.js'
 export default {
   name: 'userPage',
   data () {
@@ -190,6 +200,13 @@ export default {
         cate_name: [
           { required: true,message: '请输入分类名称',trigger: 'blur' }
         ]
+      }
+    }
+  },
+  computed: {
+    headers() {
+		  return {
+        authorization: getToken() // 直接从本地获取token就行
       }
     }
   },
@@ -379,11 +396,18 @@ export default {
         this.$message.error(err.msg);
         console.log(err)
       })
+    },
+    onSuccess(response, file, fileList) { // 上传成功
+      console.log(response)
+    },
+    onError() { // 上传失败
+      this.$message.error('上传文件失败！');
     }
   },
   mounted () {
     this.queryList()
     this.qeuryOneList()
+    console.log(this.uploadUrl)
   }
 }
 </script>

@@ -5,6 +5,7 @@ from viewHandle.userHandle import userHandle
 from viewHandle.cateHandle import cateHandle
 from viewHandle.tagHandle import tagHandle
 from viewHandle.articleHandle import articleHandle
+from viewHandle.fileHandle import fileHandle
 
 login_Handle = loginHandle() # 登陆处理
 siteHandle = siteHandle() # 站点信息
@@ -12,6 +13,7 @@ userHandle = userHandle() # 用户
 cateHandle = cateHandle() # 类目
 tagHandle = tagHandle() # 标签
 articleHandle = articleHandle() # 文章
+fileHandle = fileHandle() # 文件
 
 def set_routers(app):
     # app.router.add_get("/", index)
@@ -39,3 +41,4 @@ def set_routers(app):
     app.router.add_post('/articleSelect', articleHandle.articleSelect) # 查询文章列表
     app.router.add_post('/articleSelectId', articleHandle.articleSelectId) # 查询文章列表ID
     app.router.add_post('/tagArticleDelete', articleHandle.tagArticleDelete) # 删除文章标签id
+    app.router.add_post('/upload', fileHandle.store_file_handler) # 文件上传
