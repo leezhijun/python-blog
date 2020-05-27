@@ -70,12 +70,13 @@ def checkJWT(authorization):
     overtime = timenow + 60*60*2 # JWT过期时间
     if Signature==arr[2]: # jwt是否正确
         data['isTrue'] = True
-    oldovertime = debase_64(arr[3])
-    if oldovertime and ((timenow - float(oldovertime)) > 10*60*60): # 当前时间-过期时间10分钟
-        data['isOver'] = True
-    else: # 如果没有超过10分钟，生成一个新的JWT
-        # Payload['over_time'] = overtime
-        data['newJWT'] = base_64(json.dumps(Header, indent=2))+'.'+base_64(json.dumps(Payload, indent=2))+'.'+Signature+'.'+base_64(str(overtime))
-    
+    oldovertime = debase_64(arr[3])   
+    if oldovertime < oldovertime: # 是否过期
+        if oldovertime and ((timenow - float(oldovertime)) > 10*60*60): # 当前时间-过期时间10分钟
+            data['isOver'] = True
+        else: # 如果没有超过10分钟，生成一个新的JWT
+            # Payload['over_time'] = overtime
+            data['newJWT'] = base_64(json.dumps(Header, indent=2))+'.'+base_64(json.dumps(Payload, indent=2))+'.'+Signature+'.'+base_64(str(overtime))
+        
     data['payload'] = Payload
     return data

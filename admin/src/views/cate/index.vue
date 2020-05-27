@@ -124,10 +124,12 @@
                 :action="uploadUrl"
                 :on-success="onSuccess"
                 :on-error="onError"
+                :show-file-list="false"
               >
                 <el-button size="small" type="primary">点击上传</el-button>
-                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png/gif文件，且不超过1Mkb</div> -->
               </el-upload>
+              <div><a :href="uploadUrlPre+form3.cate_img" target="_blank" rel="noopener noreferrer"><img :src="uploadUrlPre+form3.cate_img" alt=""></a></div>
             </el-form-item>
             <el-form-item label="排序">
               <el-input-number v-model="form3.cate_order" :max="99" :controls="false" :step='1' step-strictly></el-input-number>
@@ -399,6 +401,11 @@ export default {
     },
     onSuccess(response, file, fileList) { // 上传成功
       console.log(response)
+      if (response.code===0) {
+        this.form3.cate_img = response.data
+      } else {
+        this.$message.error('上传文件失败！');
+      }
     },
     onError() { // 上传失败
       this.$message.error('上传文件失败！');
