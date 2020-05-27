@@ -28,8 +28,9 @@ class fileHandle:
             size = 0
             uploadPath = rootPath + '/uploads/'
             nowDay = datetime.now().strftime('%Y%m%d')
-            print(filename_extension)
+            # print(filename_extension)
             filename = datetime.now().strftime('%Y%m%d%H%M%S') + str(random.randint(1000,9999)) + filename_extension
+            data['data'] = '/uploads/' + nowDay + '/' + filename
             # 判断是否存在对应日期的文件夹，没有则新建一个
             if not os.path.exists(uploadPath+nowDay):
                 os.makedirs(uploadPath + nowDay)
@@ -42,9 +43,9 @@ class fileHandle:
                     size += len(chunk)
                     f.write(chunk)
             
-            data['data'] = uploadPath + nowDay + '/' + filename
         except Exception as e : # 异常
             data['code'] = -100
+            data['data'] = ''
             data['msg'] = str(e)
         finally:
-            web.json_response(data)
+            return web.json_response(data)
