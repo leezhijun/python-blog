@@ -5,7 +5,7 @@
         <div class="img"><img :src="item.article_img" /></div>
         <div class="counts f12">
           <span><i class="iconfont icon-liulan f12"></i>{{item.article_browse_count}}</span>
-          <span class="ml10"><i class="iconfont icon-comments f12"></i> 123</span>
+          <span class="ml10"><i class="iconfont icon-comments f12"></i> 0</span>
         </div>
       </div>
       <h3 class="title ell cursor" @click="jumpArticle(item.article_id)">{{item.article_title}}</h3>
@@ -71,7 +71,7 @@ export default {
 }
 .asset_img{
   width: 180px;
-  height: auto;
+  height: 140px;
   padding: 5px;
   margin-top: -40px;
   margin-right: 10px;
@@ -82,12 +82,15 @@ export default {
   background-color: #f7f6f1;
   img{
     width: 100%;
-    height: auto;
+    height: 108px;
     border-radius: 2px;
   }
   .counts{
     padding-top: 5px;
     color: #9F9D92;
+    i{
+      margin-right: 2px;
+    }
   }
 }
 </style>

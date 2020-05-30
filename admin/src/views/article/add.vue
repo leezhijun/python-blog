@@ -12,6 +12,17 @@
         <el-form-item label="网页描述">
           <el-input v-model="form.article_description" type="textarea" :row="2" placeholder="网页描述"></el-input>
         </el-form-item>
+        <el-form-item label="文章logo">
+          <el-upload
+            action = ''
+            :show-file-list="false"
+            :before-upload="beforeUpload"
+            :http-request="picUpload"
+            >
+            <el-button size="small" type="primary">点击上传</el-button>
+          </el-upload>
+          <div class="mt10" v-if="form.article_img"><a :href="uploadUrlPre+form.article_img" target="_blank" rel="noopener noreferrer"><img :src="uploadUrlPre+form.article_img" alt=""></a></div>
+        </el-form-item>
         <el-row :gutter="10">
           <el-col :span="8">
             <el-form-item label="类型">
@@ -70,6 +81,40 @@
         <el-button @click="submitClick(2)" v-else type="primary">修改</el-button>
       </div>
     </div>
+    <el-dialog
+      title="图片裁剪"
+      class="cropper-content"
+      :visible.sync="cropperModal"
+      width="600"
+      :before-close="handleClose">
+      <div class="cropper-content">
+        <div class="cropper" style="text-align:center">
+        <vueCropper
+            ref="cropper"
+            :img="cropperOption.img"
+            :outputSize="cropperOption.size"
+            :outputType="cropperOption.outputType"
+            :info="true"
+            :full="cropperOption.full"
+            :canMove="cropperOption.canMove"
+            :canMoveBox="cropperOption.canMoveBox"
+            :original="cropperOption.original"
+            :autoCrop="cropperOption.autoCrop"
+            :fixed="cropperOption.fixed"
+            :autoCropWidth="cropperOption.autoCropWidth"
+            :autoCropHeight="cropperOption.autoCropHeight"
+            :fixedNumber="cropperOption.fixedNumber"
+            :centerBox="cropperOption.centerBox"
+            :infoTrue="cropperOption.infoTrue"
+            :fixedBox="cropperOption.fixedBox"
+          ></vueCropper>
+        </div>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cropperModal = false">取 消</el-button>
+        <el-button type="primary" @click="finish"  :loading="loading">确认</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -77,6 +122,8 @@ import MyEditor from '@/components/MyEditor'
 import { catelevels } from '@/api/cate'
 import { addArticle,articleSelectId,articleUpdate } from '@/api/article'
 import { searchTag,delTagArticle } from '@/api/tag'
+import { getToken } from '@/utils/auth.js'
+import axios from 'axios'
 export default {
   name: 'AddPage',
   components: {
@@ -85,9 +132,25 @@ export default {
   data () {
     return {
       article_id: null,
+      cropperModal: false, // 裁剪弹窗
+      cropperOption: {
+        img: '',
+        outputSize: 1, // 剪切后的图片质量（0.1-1）
+        full: true, // 输出原图比例截图 props名full
+        outputType: 'png',
+        canMove: true,
+        original: false,
+        canMoveBox: true,
+        autoCrop: true,
+        autoCropWidth: 180,
+        autoCropHeight: 120,
+        fixedBox: true
+      },
+      loading: false,
       form: {
         cate_id: null,
         article_title: '',
+        article_img: '',
         article_keywords: '',
         article_description: '',
         article_order: 10,
@@ -271,7 +334,56 @@ export default {
       } else {
         this.tags = this.tags.filter(item => item.tag_id!==tag_id)
       }
-    }
+    },
+    handleClose() {
+      this.cropperModal = false
+    },
+    beforeUpload(file) { // 图片上传前
+      const isLt1M = file.size < 1 * 1024 * 1024
+      const fileType = file.type.split('/')[0]
+      if (!isLt1M) {
+        this.$message.error('图片大小不能超过5M')
+        return false
+      }
+      if (fileType !== 'image') {
+        this.$message.error('只能上传图片格式')
+        return false
+      }
+    },
+    picUpload(option) {
+      const file = option.file
+      const fileReader = new FileReader()
+      if (file) {
+        fileReader.readAsDataURL(file)
+      }
+      fileReader.onload = () => {
+        const src = fileReader.result
+        this.cropperModal = true
+        this.cropperOption.img = src
+      }
+    },
+    finish() {
+      this.$refs.cropper.getCropBlob((data) => {
+        console.log(data)
+          const formData = new FormData();
+          // 注意：此处第3个参数最好传入一个带后缀名的文件名，否则很有可能被后台认为不是有效的图片文件
+          formData.append("file", data, 'blob.png');
+          this.loading = true
+          axios.post(this.uploadUrl, formData, { headers: { "Content-Type": "multipart/form-data",authorization: getToken() } })
+          .then(res => {
+            console.log(res);
+            if (res.data&&res.data.code===0) {
+              this.form.article_img = res.data.data
+              this.cropperModal = false
+              this.loading = false
+            }
+          })
+          .catch(e => {
+            this.loading = false
+            console.log(e);
+          });
+      })
+    },
   },
   beforeMount () {
     console.log(this.$route)
@@ -286,3 +398,11 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.cropper-content {
+    .cropper {
+        width: auto;
+        height: 300px;
+    }
+}
+</style>

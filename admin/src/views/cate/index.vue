@@ -120,16 +120,15 @@
             <el-form-item label="分类logo">
               <!-- <el-input v-model="form3.cate_img" placeholder="请输入标题"></el-input> -->
               <el-upload
-                :headers="headers"
-                :action="uploadUrl"
-                :on-success="onSuccess"
-                :on-error="onError"
+                action = ''
                 :show-file-list="false"
+                :before-upload="beforeUpload"
+                :http-request="picUpload"
               >
                 <el-button size="small" type="primary">点击上传</el-button>
                 <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png/gif文件，且不超过1Mkb</div> -->
               </el-upload>
-              <div><a :href="uploadUrlPre+form3.cate_img" target="_blank" rel="noopener noreferrer"><img :src="uploadUrlPre+form3.cate_img" alt=""></a></div>
+              <div class="mt10"><a :href="uploadUrlPre+form3.cate_img" target="_blank" rel="noopener noreferrer"><img :src="uploadUrlPre+form3.cate_img" alt=""></a></div>
             </el-form-item>
             <el-form-item label="排序">
               <el-input-number v-model="form3.cate_order" :max="99" :controls="false" :step='1' step-strictly></el-input-number>
@@ -154,11 +153,47 @@
         <el-button size="small" :disabled="loading"  type="primary" @click="updateHandle('form3')">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog
+      title="图片裁剪"
+      class="cropper-content"
+      :visible.sync="cropperModal"
+      width="600"
+      :before-close="handleClose">
+      <div class="cropper-content">
+        <div class="cropper" style="text-align:center">
+        <vueCropper
+            ref="cropper"
+            :img="cropperOption.img"
+            :outputSize="cropperOption.size"
+            :outputType="cropperOption.outputType"
+            :info="true"
+            :full="cropperOption.full"
+            :canMove="cropperOption.canMove"
+            :canMoveBox="cropperOption.canMoveBox"
+            :original="cropperOption.original"
+            :autoCrop="cropperOption.autoCrop"
+            :fixed="cropperOption.fixed"
+            :autoCropWidth="cropperOption.autoCropWidth"
+            :autoCropHeight="cropperOption.autoCropHeight"
+            :fixedNumber="cropperOption.fixedNumber"
+            :centerBox="cropperOption.centerBox"
+            :infoTrue="cropperOption.infoTrue"
+            :fixedBox="cropperOption.fixedBox"
+            @realTime="realTime"
+          ></vueCropper>
+        </div>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cropperModal = false">取 消</el-button>
+        <el-button type="primary" @click="finish"  :loading="loading">确认</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
 import { getCateList,addCate,cateDelete,cateUpdate,catelevels,cateUpdateShow } from '@/api/cate'
 import { getToken } from '@/utils/auth.js'
+import axios from 'axios'
 export default {
   name: 'userPage',
   data () {
@@ -168,6 +203,20 @@ export default {
       total: 0,
       dialogVisible: false, // 添加弹窗
       updatemodal: false, // 编辑弹窗
+      cropperModal: false, // 裁剪弹窗
+      cropperOption: {
+        img: '',
+        outputSize: 1, // 剪切后的图片质量（0.1-1）
+        full: true, // 输出原图比例截图 props名full
+        outputType: 'png',
+        canMove: true,
+        original: false,
+        canMoveBox: true,
+        autoCrop: true,
+        autoCropWidth: 180,
+        autoCropHeight: 120,
+        fixedBox: true
+      },
       loading: false,
       form: {
         cate_id: '', // cate_id
@@ -409,7 +458,60 @@ export default {
     },
     onError() { // 上传失败
       this.$message.error('上传文件失败！');
-    }
+    },
+    handleClose() {
+      this.cropperModal = false
+    },
+    beforeUpload(file) { // 图片上传前
+      const isLt1M = file.size < 1 * 1024 * 1024
+      const fileType = file.type.split('/')[0]
+      if (!isLt1M) {
+        this.$message.error('图片大小不能超过5M')
+        return false
+      }
+      if (fileType !== 'image') {
+        this.$message.error('只能上传图片格式')
+        return false
+      }
+    },
+    picUpload(option) {
+      const file = option.file
+      const fileReader = new FileReader()
+      if (file) {
+        fileReader.readAsDataURL(file)
+      }
+      fileReader.onload = () => {
+        const src = fileReader.result
+        this.cropperModal = true
+        this.cropperOption.img = src
+      }
+    },
+    finish() {
+      this.$refs.cropper.getCropBlob((data) => {
+        console.log(data)
+          const formData = new FormData();
+          // 注意：此处第3个参数最好传入一个带后缀名的文件名，否则很有可能被后台认为不是有效的图片文件
+          formData.append("file", data, 'blob.png');
+          this.loading = true
+          axios.post(this.uploadUrl, formData, { headers: { "Content-Type": "multipart/form-data",authorization: getToken() } })
+          .then(res => {
+            console.log(res);
+            if (res.data&&res.data.code===0) {
+              this.form3.cate_img = res.data.data
+              this.cropperModal = false
+              this.loading = false
+            }
+          })
+          .catch(e => {
+            this.loading = false
+            console.log(e);
+          });
+      })
+    },
+    realTime (data) {
+      // 实时预览
+      this.previews = data
+    },
   },
   mounted () {
     this.queryList()
@@ -418,3 +520,11 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.cropper-content {
+    .cropper {
+        width: auto;
+        height: 300px;
+    }
+}
+</style>

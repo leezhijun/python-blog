@@ -8,13 +8,14 @@ import './assets/css/custom.scss'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import VueCropper from 'vue-cropper'
 
 import mixin from './mixin'
 
 if (process.env.NODE_ENV !== 'production') require('./mockjs/index.js')
 
 Vue.config.productionTip = false
-
+Vue.use(VueCropper)
 Vue.use(ElementUI)
 Vue.mixin(mixin)
 

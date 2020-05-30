@@ -2,3 +2,4 @@
 /admin/node_modules/
 /web/node_modules/
 __pycache__
+/uploads
